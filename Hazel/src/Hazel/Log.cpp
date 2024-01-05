@@ -3,7 +3,7 @@
 
 namespace Hazel
 {
-	//Initlize loggers
+	//declare loggers
 	std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
 	std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
 
