@@ -42,10 +42,10 @@ namespace Hazel
 	#define HZ_CORE_ERROR(...)
 	#define HZ_CORE_FATAL(...)
 
-	#define HZ_ClIENT_TRACE(...)
-	#define HZ_ClIENT_INFO(...)
-	#define HZ_ClIENT_WARN(...)
-	#define HZ_ClIENT_ERROR(...)
-	#define HZ_ClIENT_FATAL(...)
+	#define HZ_CLIENT_TRACE(...)
+	#define HZ_CLIENT_INFO(...)
+	#define HZ_CLIENT_WARN(...)
+	#define HZ_CLIENT_ERROR(...)
+	#define HZ_CLIENT_FATAL(...)
 
 #endif
