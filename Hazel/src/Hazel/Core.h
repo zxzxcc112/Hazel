@@ -13,3 +13,5 @@
 #else
 #error "Hazel not support!"
 #endif
+
+#define BIT(N) (1 << N)
