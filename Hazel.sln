@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hazel", "Hazel\Hazel.vcxproj", "{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLFW", "Hazel\vender\GLFW\GLFW.vcxproj", "{49650944-28B0-40CB-AFE9-45869C632FC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -29,6 +31,12 @@ Global
 		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Distribution|x64.Build.0 = Distribution|x64
 		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Release|x64.ActiveCfg = Release|x64
 		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Release|x64.Build.0 = Release|x64
+		{49650944-28B0-40CB-AFE9-45869C632FC8}.Debug|x64.ActiveCfg = Debug|x64
+		{49650944-28B0-40CB-AFE9-45869C632FC8}.Debug|x64.Build.0 = Debug|x64
+		{49650944-28B0-40CB-AFE9-45869C632FC8}.Distribution|x64.ActiveCfg = Distribution|x64
+		{49650944-28B0-40CB-AFE9-45869C632FC8}.Distribution|x64.Build.0 = Distribution|x64
+		{49650944-28B0-40CB-AFE9-45869C632FC8}.Release|x64.ActiveCfg = Release|x64
+		{49650944-28B0-40CB-AFE9-45869C632FC8}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,4 +13,8 @@ IF NOT EXIST %orig_path%%Solution% (
 MOVE %orig_path%%Solution% .\
 FOR %%I IN (%Projects%) DO MOVE %orig_path%%%I* .\%%I\
 
+
+SET SubProjects=GLFW
+FOR %%I IN (%SubProjects%) DO MOVE %orig_path%%%I* .\Hazel\vender\%%I\
+
 PAUSE  

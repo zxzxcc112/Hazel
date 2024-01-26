@@ -21,7 +21,7 @@ namespace Hazel
 
 }
 
-#ifdef _DEBUG
+#ifdef HZ_DEBUG
 
 	#define HZ_CORE_TRACE(...)		::Hazel::Log::GetCoreLogger()->trace(__VA_ARGS__);
 	#define HZ_CORE_INFO(...)		::Hazel::Log::GetCoreLogger()->info(__VA_ARGS__);

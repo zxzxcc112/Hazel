@@ -5,7 +5,7 @@
 
 # My document
 [Dd]oc/
-vender/
+/vender/
 
 # User-specific files
 *.rsuser

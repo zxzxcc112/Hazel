@@ -9,7 +9,8 @@ EXIT /b 2
 SET DESTINATION=.\doc\orig\
 
 SET vs2022Build=.\Hazel.sln .\Hazel\Hazel.vcxproj .\Hazel\Hazel.vcxproj.filters .\Hazel\Hazel.vcxproj.user ^
-                .\Sandbox\Sandbox.vcxproj .\Sandbox\Sandbox.vcxproj.filters .\Sandbox\Sandbox.vcxproj.user
+                .\Sandbox\Sandbox.vcxproj .\Sandbox\Sandbox.vcxproj.filters .\Sandbox\Sandbox.vcxproj.user ^
+		.\Hazel\vender\GLFW\GLFW.vcxproj .\Hazel\vender\GLFW\GLFW.vcxproj.filters  .\Hazel\vender\GLFW\GLFW.vcxproj.user
 
 FOR %%I IN (%vs2022Build%) DO XCOPY /Y %%I %DESTINATION%
 

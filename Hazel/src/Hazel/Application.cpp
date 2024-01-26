@@ -1,21 +1,23 @@
 #include "hzpch.h"
 #include "Application.h"
-#include "Log.h"
-#include "Events/ApplicationEvent.h"
 
 namespace Hazel
 {
-	Application::Application() {}
+	Application::Application()
+	{
+		m_Window = std::unique_ptr<Window>(Window::Create());
+	}
+
 	Application::~Application() {}
 
 	void Application::Run()
 	{
-		HZ_CORE_INFO("The Hazel message!");
-		HZ_CORE_WARN("The Hazel warning!");
-		HZ_CLIENT_WARN("The App {0}!", "message");
-		WindowResizeEvent e(1366, 768);
-		HZ_CORE_TRACE(e);
+		HZ_CORE_INFO("The Hazel Application is running.");
 
-		while (true);
+		while (m_Running)
+		{
+			m_Window->OnUpdate();
+		}
+
 	}
 }
