@@ -58,13 +58,13 @@ namespace Hazel
 	class HAZEL_API EventDispatcher
 	{
 		template<typename T>
-		using EventFu = std::function<bool(T&)>;
+		using EventFn = std::function<bool(T&)>;
 	public:
 		EventDispatcher(Event& event)
 			:m_event(event) {}
 
 		template<typename T>
-		bool Dispatch(EventFu<T> Func)
+		bool Dispatch(EventFn<T> Func)
 		{
 			if (m_event.GetEventType() == T::GetStaticType())
 			{
