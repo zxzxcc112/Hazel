@@ -2,10 +2,38 @@
 
 #include <Hazel.h>
 
+class ExampleLayer : public Hazel::Layer
+{
+public:
+	ExampleLayer()
+		:Layer("Example Layer")
+	{
+
+	}
+
+	~ExampleLayer()
+	{
+
+	}
+
+	void OnUpdate() override
+	{
+		HZ_CLIENT_INFO("{0} update.", GetName());
+	}
+
+	void OnEvent(Hazel::Event& e) override
+	{
+		HZ_CLIENT_TRACE(e);
+	}
+};
+
 class Sandbox : public Hazel::Application
 {
 public:
-	Sandbox() {}
+	Sandbox()
+	{
+		PushLayer(new ExampleLayer());
+	}
 	~Sandbox() {}
 };
 
