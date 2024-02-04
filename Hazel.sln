@@ -12,31 +12,63 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hazel", "Hazel\Hazel.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLFW", "Hazel\vender\GLFW\GLFW.vcxproj", "{49650944-28B0-40CB-AFE9-45869C632FC8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Glad", "Hazel\vender\Glad\Glad.vcxproj", "{B8A58561-02BF-42A7-949D-1428B895A102}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Distribution|x64 = Distribution|x64
+		Distribution|x86 = Distribution|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{75FEA23F-FD65-4816-90D1-13710080FCC6}.Debug|x64.ActiveCfg = Debug|x64
 		{75FEA23F-FD65-4816-90D1-13710080FCC6}.Debug|x64.Build.0 = Debug|x64
+		{75FEA23F-FD65-4816-90D1-13710080FCC6}.Debug|x86.ActiveCfg = Debug|x64
+		{75FEA23F-FD65-4816-90D1-13710080FCC6}.Debug|x86.Build.0 = Debug|x64
 		{75FEA23F-FD65-4816-90D1-13710080FCC6}.Distribution|x64.ActiveCfg = Distribution|x64
 		{75FEA23F-FD65-4816-90D1-13710080FCC6}.Distribution|x64.Build.0 = Distribution|x64
+		{75FEA23F-FD65-4816-90D1-13710080FCC6}.Distribution|x86.ActiveCfg = Distribution|x64
+		{75FEA23F-FD65-4816-90D1-13710080FCC6}.Distribution|x86.Build.0 = Distribution|x64
 		{75FEA23F-FD65-4816-90D1-13710080FCC6}.Release|x64.ActiveCfg = Release|x64
 		{75FEA23F-FD65-4816-90D1-13710080FCC6}.Release|x64.Build.0 = Release|x64
+		{75FEA23F-FD65-4816-90D1-13710080FCC6}.Release|x86.ActiveCfg = Release|x64
+		{75FEA23F-FD65-4816-90D1-13710080FCC6}.Release|x86.Build.0 = Release|x64
 		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Debug|x64.ActiveCfg = Debug|x64
 		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Debug|x64.Build.0 = Debug|x64
+		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Debug|x86.ActiveCfg = Debug|x64
+		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Debug|x86.Build.0 = Debug|x64
 		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Distribution|x64.ActiveCfg = Distribution|x64
 		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Distribution|x64.Build.0 = Distribution|x64
+		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Distribution|x86.ActiveCfg = Distribution|x64
+		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Distribution|x86.Build.0 = Distribution|x64
 		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Release|x64.ActiveCfg = Release|x64
 		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Release|x64.Build.0 = Release|x64
+		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Release|x86.ActiveCfg = Release|x64
+		{845DDCAD-87EC-4C3A-82A8-EF3D701C5A3B}.Release|x86.Build.0 = Release|x64
 		{49650944-28B0-40CB-AFE9-45869C632FC8}.Debug|x64.ActiveCfg = Debug|x64
 		{49650944-28B0-40CB-AFE9-45869C632FC8}.Debug|x64.Build.0 = Debug|x64
+		{49650944-28B0-40CB-AFE9-45869C632FC8}.Debug|x86.ActiveCfg = Debug|x64
+		{49650944-28B0-40CB-AFE9-45869C632FC8}.Debug|x86.Build.0 = Debug|x64
 		{49650944-28B0-40CB-AFE9-45869C632FC8}.Distribution|x64.ActiveCfg = Distribution|x64
 		{49650944-28B0-40CB-AFE9-45869C632FC8}.Distribution|x64.Build.0 = Distribution|x64
+		{49650944-28B0-40CB-AFE9-45869C632FC8}.Distribution|x86.ActiveCfg = Distribution|x64
+		{49650944-28B0-40CB-AFE9-45869C632FC8}.Distribution|x86.Build.0 = Distribution|x64
 		{49650944-28B0-40CB-AFE9-45869C632FC8}.Release|x64.ActiveCfg = Release|x64
 		{49650944-28B0-40CB-AFE9-45869C632FC8}.Release|x64.Build.0 = Release|x64
+		{49650944-28B0-40CB-AFE9-45869C632FC8}.Release|x86.ActiveCfg = Release|x64
+		{49650944-28B0-40CB-AFE9-45869C632FC8}.Release|x86.Build.0 = Release|x64
+		{B8A58561-02BF-42A7-949D-1428B895A102}.Debug|x64.ActiveCfg = Debug|x64
+		{B8A58561-02BF-42A7-949D-1428B895A102}.Debug|x64.Build.0 = Debug|x64
+		{B8A58561-02BF-42A7-949D-1428B895A102}.Debug|x86.ActiveCfg = Debug|x64
+		{B8A58561-02BF-42A7-949D-1428B895A102}.Distribution|x64.ActiveCfg = Distribution|x64
+		{B8A58561-02BF-42A7-949D-1428B895A102}.Distribution|x64.Build.0 = Distribution|x64
+		{B8A58561-02BF-42A7-949D-1428B895A102}.Distribution|x86.ActiveCfg = Debug|x64
+		{B8A58561-02BF-42A7-949D-1428B895A102}.Release|x64.ActiveCfg = Release|x64
+		{B8A58561-02BF-42A7-949D-1428B895A102}.Release|x64.Build.0 = Release|x64
+		{B8A58561-02BF-42A7-949D-1428B895A102}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
