@@ -14,7 +14,7 @@ MOVE %orig_path%%Solution% .\
 FOR %%I IN (%Projects%) DO MOVE %orig_path%%%I* .\%%I\
 
 
-SET SubProjects=GLFW Glad
+SET SubProjects=GLFW Glad ImGui
 FOR %%I IN (%SubProjects%) DO MOVE %orig_path%%%I* .\Hazel\vender\%%I\
 
 PAUSE  

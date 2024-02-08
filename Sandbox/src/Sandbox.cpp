@@ -18,7 +18,7 @@ public:
 
 	void OnUpdate() override
 	{
-		HZ_CLIENT_INFO("{0} update.", GetName());
+		//HZ_CLIENT_INFO("{0} update.", GetName());
 	}
 
 	void OnEvent(Hazel::Event& e) override
@@ -33,6 +33,7 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Hazel::ImGuiLayer());
 	}
 	~Sandbox() {}
 };
