@@ -1,4 +1,5 @@
 #pragma once
+#include "Hazel/Core.h"
 #include "Hazel/Layer.h"
 
 #include "Hazel/Events/ApplicationEvent.h"
@@ -18,16 +19,16 @@ namespace Hazel
 		virtual void OnUpdate() override;
 		virtual void OnEvent(Event& event) override;
 	private:
-		//bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
-		//bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);
-		//bool OnMouseMovedEvent(MouseMovedEvent& e);
-		//bool OnMouseScrolledEvent(MouseScrolledEvent& e);
-		//
-		//bool OnKeyPressedEvent(KeyPressedEvent& e);
-		//bool OnKeyReleasedEvent(KeyReleasedEvent& e);
-		//bool OnKeyTypedEvent(KeyTypedEvent& e);
-		//
-		//bool OnWindowResized(WindowResizeEvent& e);
+		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
+		bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);
+		bool OnMouseMovedEvent(MouseMovedEvent& e);
+		bool OnMouseScrolledEvent(MouseScrolledEvent& e);
+		
+		bool OnKeyPressedEvent(KeyPressedEvent& e);
+		bool OnKeyReleasedEvent(KeyReleasedEvent& e);
+		bool OnKeyTypedEvent(KeyTypedEvent& e);
+		
+		bool OnWindowResizedEvent(WindowResizeEvent& e);
 
 		float m_Time = 0.0f;
 	};

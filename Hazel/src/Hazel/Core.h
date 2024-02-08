@@ -23,3 +23,5 @@
 #endif
 
 #define BIT(N) (1 << N)
+
+#define HZ_BIND_EVENT_FN(Fn) std::bind(&Fn, this, std::placeholders::_1)
