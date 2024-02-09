@@ -86,7 +86,7 @@ namespace Hazel
 
 	bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e)
 	{
-        GLFWwindow* window = (GLFWwindow*) Application::Get().GetWindow().Get();
+        GLFWwindow* window = (GLFWwindow*) Application::Get().GetWindow().GetNativeWindow();
         ImGui_ImplGlfw_UpdateKeyModifiers(window);
 
 		ImGuiIO& io = ImGui::GetIO();
@@ -121,7 +121,7 @@ namespace Hazel
 
 	bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& e)
 	{
-        GLFWwindow* window = (GLFWwindow*)Application::Get().GetWindow().Get();
+        GLFWwindow* window = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
         ImGui_ImplGlfw_UpdateKeyModifiers(window);
 
 		ImGuiIO& io = ImGui::GetIO();
