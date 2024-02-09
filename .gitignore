@@ -6,6 +6,7 @@
 # My document
 [Dd]oc/
 /vender/
+/Sandbox/imgui.ini
 
 # User-specific files
 *.rsuser
