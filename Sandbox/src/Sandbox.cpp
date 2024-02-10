@@ -21,9 +21,14 @@ public:
 		//HZ_CLIENT_INFO("{0} update.", GetName());
 	}
 
-	void OnEvent(Hazel::Event& e) override
+	void OnEvent(Hazel::Event& event) override
 	{
-		HZ_CLIENT_TRACE(e);
+		if (event.GetEventType() == Hazel::EventType::KeyPressed)
+		{
+			Hazel::KeyPressedEvent& e = (Hazel::KeyPressedEvent&)event;
+			HZ_CLIENT_TRACE("{0}", (char)e.GetKeyCode());
+		}
+		HZ_CLIENT_TRACE(event);
 	}
 };
 
