@@ -8,7 +8,6 @@ public:
 	ExampleLayer()
 		:Layer("Example Layer")
 	{
-
 	}
 
 	~ExampleLayer()
