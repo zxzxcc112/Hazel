@@ -32,11 +32,11 @@
     <ClInclude Include="src\Hazel\MouseButtonCodes.h" />
     <ClInclude Include="src\Hazel\Window.h" />
     <ClInclude Include="src\hzpch.h" />
-    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Hazel\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Hazel\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Hazel\Layer.cpp" />
     <ClCompile Include="src\Hazel\LayerStack.cpp" />
@@ -50,7 +50,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">hzpch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
   </ItemGroup>
@@ -62,7 +61,7 @@
       <Project>{154b857c-0182-860d-aa6e-6c109684020f}</Project>
     </ProjectReference>
     <ProjectReference Include="vender\ImGui\ImGui.vcxproj">
-      <Project>{95879aaa-1fa4-4e88-b362-712da8f2bdf7}</Project>
+      <Project>{2f03bdde-7890-4083-a4c3-8b114dd39d9f}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -104,6 +104,7 @@ project "Sandbox"
 	{
 		"Hazel/vender/spdlog/include",
 		"Hazel/vender/glm",
+		"Hazel/vender/ImGui",
 		"Hazel/src"
 	}
 

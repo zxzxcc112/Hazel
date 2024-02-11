@@ -60,9 +60,6 @@
     <ClInclude Include="src\Hazel\ImGui\ImGuiLayer.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
     <ClInclude Include="src\Hazel\Input.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
@@ -98,10 +95,10 @@
     <ClCompile Include="src\Hazel\ImGui\ImGuiLayer.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
+    <ClCompile Include="src\Hazel\ImGui\ImGuiBuild.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

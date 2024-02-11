@@ -12,6 +12,7 @@ namespace Hazel
 		virtual void OnAttach() {} //When layer push to layer stack
 		virtual void OnDetach() {} //When layer pop from layer stack
 		virtual void OnUpdate() {}
+		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 
 		inline const std::string& GetName() const { return m_DebugName; }
