@@ -3,11 +3,15 @@
 /*Define marcos for different platforms*/
 
 #ifdef HZ_PLATFORM_WINDOWS
-	#ifdef HZ_BUILD_DLL
-		#define HAZEL_API __declspec(dllexport)
+	#if 0 // NOT SUPPORT DLL
+		#ifdef HZ_BUILD_DLL
+			#define HAZEL_API __declspec(dllexport)
+		#else
+			#define HAZEL_API __declspec(dllimport)
+		#endif // HZ_BUILD_DLL
 	#else
-		#define HAZEL_API __declspec(dllimport)
-	#endif // HZ_BUILD_DLL
+		#define HAZEL_API
+	#endif
 #elif defined(HZ_PLATFORM_MAC) || defined(HZ_PLATFORM_LINUX)
 	//for macOS and Linux
 #else

@@ -18,8 +18,10 @@ include "Hazel/vender/ImGui"
 
 project "Hazel"
 	location "Hazel"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputDir .. "%{prj.name}")
 	objdir ("bin-int/" .. outputDir .. "%{prj.name}")
@@ -51,21 +53,17 @@ project "Hazel"
 		"opengl32.lib"
 	}
 
-	postbuildcommands 
+	disablewarnings
 	{
-		("{mkdir} ../bin/" .. outputDir .. "Sandbox"),
-		("{copyfile} %{cfg.buildtarget.relpath} ../bin/" .. outputDir .. "Sandbox")
+		"4819"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "Off"
 		systemversion "latest"
 
 		defines
 		{
 			"HZ_PLATFORM_WINDOWS",
-			"HZ_BUILD_DLL",
 			"GLFW_INCLUDE_NONE",
 			"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
 			"_CRT_SECURE_NO_WARNINGS"
@@ -74,22 +72,24 @@ project "Hazel"
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Distribution"
 		defines "HZ_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputDir .. "%{prj.name}")
 	objdir ("bin-int/" .. outputDir .. "%{prj.name}")
@@ -113,9 +113,12 @@ project "Sandbox"
 		"Hazel"
 	}
 
+	disablewarnings
+	{
+		"4819"
+	}
+	
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "Off"
 		systemversion "latest"
 
 		defines
@@ -127,14 +130,14 @@ project "Sandbox"
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Distribution"
 		defines "HZ_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
