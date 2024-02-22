@@ -31,6 +31,7 @@
     <ClInclude Include="src\Hazel\EntryPoint.h" />
     <ClInclude Include="src\Hazel\MouseButtonCodes.h" />
     <ClInclude Include="src\Hazel\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Hazel\Renderer\Shader.h" />
     <ClInclude Include="src\Hazel\Window.h" />
     <ClInclude Include="src\hzpch.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
@@ -44,6 +45,7 @@
     <ClCompile Include="src\Hazel\LayerStack.cpp" />
     <ClCompile Include="src\Hazel\Log.cpp" />
     <ClCompile Include="src\Hazel\Application.cpp" />
+    <ClCompile Include="src\Hazel\Renderer\Shader.cpp" />
     <ClCompile Include="src\hzpch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">hzpch.h</PrecompiledHeaderFile>

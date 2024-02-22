@@ -3,6 +3,7 @@
 
 #include <glad/glad.h>
 
+
 namespace Hazel
 {
 	#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
@@ -45,6 +46,35 @@ namespace Hazel
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
 
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+		std::string vertexSrc = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_Position;
+
+			out vec3 v_pos;
+
+			void main()
+			{
+				gl_Position = vec4(a_Position , 1.0);
+				pos = a_Position;
+			}
+		)";
+
+		std::string fragmentSrc = R"(
+			#version 330 core
+			
+			out vec4 FragColor;
+			
+			in vec3 v_pos;
+
+			void main()
+			{
+				FragColor = vec4(v_pos * 0.5 + 0.5, 1.0);
+			}
+		)";
+
+		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
 	}
 
 	Application::~Application() {}
@@ -58,6 +88,7 @@ namespace Hazel
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			m_Shader->Bind();
 			glBindVertexArray(m_VertexArray);
 			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 
