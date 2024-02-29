@@ -10,6 +10,27 @@ namespace Hazel
 
 	Application* Application::s_Instance = nullptr;
 
+	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+	{
+		switch (type)
+		{
+			case ShaderDataType::None:		return GL_NONE;
+			case ShaderDataType::Float:		return GL_FLOAT;
+			case ShaderDataType::Float2:	return GL_FLOAT;
+			case ShaderDataType::Float3:	return GL_FLOAT;
+			case ShaderDataType::Float4:	return GL_FLOAT;
+			case ShaderDataType::Mat3:		return GL_FLOAT;
+			case ShaderDataType::Mat4:		return GL_FLOAT;
+			case ShaderDataType::Int:		return GL_INT;
+			case ShaderDataType::Int2:		return GL_INT;
+			case ShaderDataType::Int3:		return GL_INT;
+			case ShaderDataType::Int4:		return GL_INT;
+			case ShaderDataType::Bool:		return GL_BOOL;
+		}
+		HZ_CORE_ASSERT(false, "Unknown ShaderDataType!");
+		return GL_NONE;
+	}
+
 	Application::Application()
 	{
 		HZ_CORE_ASSERT(!s_Instance, "Application already exists!");
@@ -25,15 +46,36 @@ namespace Hazel
 		glBindVertexArray(m_VertexArray);
 
 		float vertices[] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.0f,  0.5f, 0.0f
+			-0.5f, -0.5f, 0.0f, 0.7f, 0.2f, 0.7f, 1.0f,
+			 0.5f, -0.5f, 0.0f, 0.1f, 0.7f, 0.2f, 1.0f,
+			 0.0f,  0.5f, 0.0f, 0.2f, 0.1f, 0.7f, 1.0f
 		};
 
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		{
+			BufferLayout layout = {
+				{ShaderDataType::Float3, "a_Position"},
+				{ShaderDataType::Float4, "a_Color"}
+			};
+
+			m_VertexBuffer->SetLayout(layout);
+		}
+
+		uint32_t index = 0;
+		const auto& layout = m_VertexBuffer->GetLayout();
+		for (const auto& element : layout)
+		{
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(index, 
+				element.GetComponentCount(),
+				ShaderDataTypeToOpenGLBaseType(element.Type),
+				element.Normalized ? GL_TRUE : GL_FALSE,
+				layout.GetStride(),
+				(const void*)(uint64_t)element.Offset);
+			index++;
+		}
+		
 
 		uint32_t indices[] = {
 			0, 1, 2,
@@ -45,13 +87,14 @@ namespace Hazel
 			#version 330 core
 
 			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec4 a_Color;
 
-			out vec3 v_pos;
+			out vec4 v_color;
 
 			void main()
 			{
 				gl_Position = vec4(a_Position , 1.0);
-				v_pos = a_Position;
+				v_color = a_Color;
 			}
 		)";
 
@@ -60,11 +103,11 @@ namespace Hazel
 			
 			out vec4 FragColor;
 			
-			in vec3 v_pos;
+			in vec4 v_color;
 
 			void main()
 			{
-				FragColor = vec4(v_pos * 0.5 + 0.5, 1.0);
+				FragColor = v_color;
 			}
 		)";
 
