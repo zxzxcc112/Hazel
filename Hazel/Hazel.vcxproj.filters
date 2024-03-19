@@ -96,6 +96,15 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\RendererAPI.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\RenderCommand.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Application.cpp">
@@ -144,6 +153,15 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\RenderCommand.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\RendererAPI.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>
