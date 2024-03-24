@@ -4,6 +4,9 @@
 #include <glad/glad.h>
 #include "Hazel/Renderer/Renderer.h"
 
+#include "Input.h"
+#include "KeyCodes.h"
+
 namespace Hazel
 {
 	#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
@@ -13,6 +16,7 @@ namespace Hazel
 	
 
 	Application::Application()
+		:m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		HZ_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
@@ -59,11 +63,13 @@ namespace Hazel
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
 
+			uniform mat4 u_ViewProjection;
+
 			out vec4 v_color;
 
 			void main()
 			{
-				gl_Position = vec4(a_Position , 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position , 1.0);
 				v_color = a_Color;
 			}
 		)";
@@ -116,10 +122,12 @@ namespace Hazel
 			#version 330 core
 
 			layout(location = 0) in vec3 a_Position;
+			
+			uniform mat4 u_ViewProjection;
 
 			void main()
 			{
-				gl_Position = vec4(a_Position , 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position , 1.0);
 			}
 		)";
 
@@ -148,13 +156,10 @@ namespace Hazel
 			RenderCommand::SetClearColor({ 0.2f, 0.3f, 0.3f, 1.0f });
 			RenderCommand::Clear();
 
-			Renderer::BeginScene();
+			Renderer::BeginScene(m_Camera);
 
-			m_SquareShader->Bind();
-			Renderer::Submit(m_SquareVertexArray);
-			
-			m_Shader->Bind();
-			Renderer::Submit(m_VertexArray);
+			Renderer::Submit(m_SquareShader, m_SquareVertexArray);
+			Renderer::Submit(m_Shader, m_VertexArray);
 
 			Renderer::EndScene();
 
@@ -176,6 +181,7 @@ namespace Hazel
 	{
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FN(OnCameraTransform));
 
 		HZ_CORE_TRACE("{0}", event);
 
@@ -203,5 +209,23 @@ namespace Hazel
 	{
 		m_Running = false;
 		return true;
+	}
+
+	bool Application::OnCameraTransform(KeyPressedEvent& event)
+	{
+		glm::vec3 position = m_Camera.GetPosition();
+		float rotation = m_Camera.GetRotation();
+
+		switch (event.GetKeyCode())
+		{
+			case HZ_KEY_W: m_Camera.SetPosition(position + glm::vec3(  0.0f,  0.1f, 0.0f)); break;
+			case HZ_KEY_A: m_Camera.SetPosition(position + glm::vec3( -0.1f,  0.0f, 0.0f)); break;
+			case HZ_KEY_S: m_Camera.SetPosition(position + glm::vec3(  0.0f, -0.1f, 0.0f)); break;
+			case HZ_KEY_D: m_Camera.SetPosition(position + glm::vec3(  0.1f,  0.0f, 0.0f)); break;
+			case HZ_KEY_Q: m_Camera.SetRotation(rotation + -1.0f); break;
+			case HZ_KEY_E: m_Camera.SetRotation(rotation +  1.0f); break;
+		}
+
+		return false;
 	}
 }
