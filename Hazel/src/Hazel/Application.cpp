@@ -1,6 +1,10 @@
 #include "hzpch.h"
 #include "Application.h"
 
+#include <GLFW/glfw3.h>
+
+#include "Hazel/Core/Timestep.h"
+
 namespace Hazel
 {
 	#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
@@ -27,9 +31,12 @@ namespace Hazel
 
 		while (m_Running)
 		{
+			float time = (float)glfwGetTime(); //TEMP: Platform::GetTime
+			Timestep ts = time - m_LastFrameTime;
+			m_LastFrameTime = time;
 
 			for (Layer* layer : m_Layers)
-				layer->OnUpdate();
+				layer->OnUpdate(ts);
 
 			// TODO: run on rendering thread
 			m_ImGuiLayer->Begin();

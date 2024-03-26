@@ -131,22 +131,24 @@ public:
 
 	}
 
-	void OnUpdate() override
+	void OnUpdate(Hazel::Timestep ts) override
 	{
+		HZ_CLIENT_TRACE("Timestep: {0}s, {1}ms", ts.GetSeconds(), ts.GetMilliseconds());
+
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
-			m_CameraPosition.x += m_CameraMoveSpeed;
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
-			m_CameraPosition.x -= m_CameraMoveSpeed;
+			m_CameraPosition.x += m_CameraMoveSpeed * ts;
+		else if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
+			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
 
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_W))
-			m_CameraPosition.y += m_CameraMoveSpeed;
+			m_CameraPosition.y += m_CameraMoveSpeed * ts;
 		else if (Hazel::Input::IsKeyPressed(HZ_KEY_S))
-			m_CameraPosition.y -= m_CameraMoveSpeed;
+			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
 
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_Q))
-			m_CameraRotation += m_CameraRotateSpeed;
+			m_CameraRotation += m_CameraRotateSpeed * ts;
 		else if (Hazel::Input::IsKeyPressed(HZ_KEY_E))
-			m_CameraRotation -= m_CameraRotateSpeed;
+			m_CameraRotation -= m_CameraRotateSpeed * ts;
 
 		m_Camera.SetPosition(m_CameraPosition);
 		m_Camera.SetRotation(m_CameraRotation);
@@ -182,8 +184,8 @@ private:
 	Hazel::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
 	float m_CameraRotation;
-	float m_CameraMoveSpeed = 0.1f;
-	float m_CameraRotateSpeed = 1.0f;
+	float m_CameraMoveSpeed = 5.0f;
+	float m_CameraRotateSpeed = 180.0f;
 };
 
 class Sandbox : public Hazel::Application
