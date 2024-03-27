@@ -2,7 +2,11 @@
 
 #include <Hazel.h>
 
+#include "Platform/OpenGL/OpenGLShader.h"
 #include "imgui.h"
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public Hazel::Layer
 {
@@ -15,7 +19,7 @@ public:
 		float vertices[] = {
 			-0.5f, -0.5f, 0.0f, 0.7f, 0.2f, 0.7f, 1.0f,
 			 0.5f, -0.5f, 0.0f, 0.1f, 0.7f, 0.2f, 1.0f,
-			 0.0f,  0.5f, 0.0f, 0.2f, 0.1f, 0.7f, 1.0f
+			 0.0f,  0.5f, 0.0f, 0.2f, 0.1f, 0.6f, 1.0f
 		};
 
 		std::shared_ptr<Hazel::VertexBuffer> vertexBuffer;
@@ -45,12 +49,13 @@ public:
 			layout(location = 1) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec4 v_color;
 
 			void main()
 			{
-				gl_Position = u_ViewProjection * vec4(a_Position , 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position , 1.0);
 				v_color = a_Color;
 			}
 		)";
@@ -68,7 +73,7 @@ public:
 			}
 		)";
 
-		m_Shader.reset(new Hazel::Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(Hazel::Shader::Create(vertexSrc, fragmentSrc));
 
 		//square
 		m_SquareVertexArray.reset(Hazel::VertexArray::Create());
@@ -104,25 +109,28 @@ public:
 			layout(location = 0) in vec3 a_Position;
 			
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			void main()
 			{
-				gl_Position = u_ViewProjection * vec4(a_Position , 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position , 1.0);
 			}
 		)";
 
 		std::string squarefragmentSrc = R"(
 			#version 330 core
 			
+			uniform vec3 u_FlatColor;
+
 			out vec4 FragColor;
 			
 			void main()
 			{
-				FragColor = vec4(0.2f, 0.1f, 0.7f, 1.0f);
+				FragColor = vec4(u_FlatColor, 1.0f);
 			}
 		)";
 
-		m_SquareShader.reset(new Hazel::Shader(squarevertexSrc, squarefragmentSrc));
+		m_SquareShader.reset(Hazel::Shader::Create(squarevertexSrc, squarefragmentSrc));
 
 	}
 
@@ -158,7 +166,21 @@ public:
 
 		Hazel::Renderer::BeginScene(m_Camera);
 
-		Hazel::Renderer::Submit(m_SquareShader, m_SquareVertexArray);
+		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f, 0.1f, 1.0f));
+
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_SquareShader)->Bind();
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_SquareShader)->UploadUniformFloat3("u_FlatColor", m_SquareColor);
+
+		for (int y = 0; y < 20; y++)
+		{
+			for (int x = 0; x < 20; x++)
+			{
+				glm::vec3 position = glm::vec3(x * 0.16f, y * 0.16f, 0.0f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * scale;
+				Hazel::Renderer::Submit(m_SquareShader, m_SquareVertexArray, transform);
+			}
+		}
+		
 		Hazel::Renderer::Submit(m_Shader, m_VertexArray);
 
 		Hazel::Renderer::EndScene();
@@ -166,7 +188,9 @@ public:
 
 	void OnImGuiRender() override
 	{
-		
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("square color", glm::value_ptr(m_SquareColor));
+		ImGui::End();
 	}
 
 	void OnEvent(Hazel::Event& event) override
@@ -186,6 +210,8 @@ private:
 	float m_CameraRotation;
 	float m_CameraMoveSpeed = 5.0f;
 	float m_CameraRotateSpeed = 180.0f;
+
+	glm::vec3 m_SquareColor = { 0.2f, 0.1f, 0.6f };
 };
 
 class Sandbox : public Hazel::Application
