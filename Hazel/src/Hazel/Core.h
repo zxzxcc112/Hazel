@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 /*Define marcos for different platforms*/
 
 #ifdef HZ_PLATFORM_WINDOWS
@@ -33,3 +35,12 @@
 #define BIT(N) (1 << N)
 
 #define HZ_BIND_EVENT_FN(Fn) std::bind(&Fn, this, std::placeholders::_1)
+
+namespace Hazel
+{
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+}
