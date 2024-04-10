@@ -79,10 +79,10 @@ public:
 		m_SquareVertexArray.reset(Hazel::VertexArray::Create());
 
 		float squarevertices[] = {
-			-0.7f, -0.7f, 0.0f,
-			 0.7f, -0.7f, 0.0f,
-			 0.7f,  0.7f, 0.0f,
-			-0.7f,  0.7f, 0.0f,
+			-0.7f, -0.7f, 0.0f, 0.0f, 0.0f,
+			 0.7f, -0.7f, 0.0f, 1.0f, 0.0f,
+			 0.7f,  0.7f, 0.0f, 1.0f, 1.0f,
+			-0.7f,  0.7f, 0.0f, 0.0f, 1.0f
 		};
 
 		Hazel::Ref<Hazel::VertexBuffer> squarevertexBuffer;
@@ -90,7 +90,8 @@ public:
 
 		squarevertexBuffer->SetLayout({
 			{Hazel::ShaderDataType::Float3, "a_Position"},
-			});
+			{Hazel::ShaderDataType::Float2, "a_TexCoord"},
+		});
 		m_SquareVertexArray->AddVertexBuffer(squarevertexBuffer);
 
 
@@ -132,6 +133,45 @@ public:
 
 		m_SquareShader.reset(Hazel::Shader::Create(squarevertexSrc, squarefragmentSrc));
 
+		std::string texturevertexSrc = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TexCoord;
+			
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec2 v_TexCoord;
+
+			void main()
+			{
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position , 1.0);
+				v_TexCoord = a_TexCoord;
+			}
+		)";
+
+		std::string texturefragmentSrc = R"(
+			#version 330 core
+			
+			in vec2 v_TexCoord;
+
+			uniform sampler2D u_Texture;
+
+			out vec4 FragColor;
+			
+			void main()
+			{
+				FragColor = texture(u_Texture, v_TexCoord);
+			}
+		)";
+
+		m_TextureShader.reset(Hazel::Shader::Create(texturevertexSrc, texturefragmentSrc));
+
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+
+		m_Texture = Hazel::Texture2D::Create("assets/textures/1SmwlRi4L6ZTT3WtE4EqT7.jpg");
 	}
 
 	~ExampleLayer()
@@ -181,7 +221,11 @@ public:
 			}
 		}
 		
-		Hazel::Renderer::Submit(m_Shader, m_VertexArray);
+		m_Texture->Bind();
+		Hazel::Renderer::Submit(m_TextureShader, m_SquareVertexArray);
+
+		//Triangle
+		//Hazel::Renderer::Submit(m_Shader, m_VertexArray);
 
 		Hazel::Renderer::EndScene();
 	}
@@ -212,6 +256,9 @@ private:
 	float m_CameraRotateSpeed = 180.0f;
 
 	glm::vec3 m_SquareColor = { 0.2f, 0.1f, 0.6f };
+
+	Hazel::Ref<Hazel::Shader> m_TextureShader;
+	Hazel::Ref<Hazel::Texture2D> m_Texture;
 };
 
 class Sandbox : public Hazel::Application
