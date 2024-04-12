@@ -172,6 +172,7 @@ public:
 		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
 
 		m_Texture = Hazel::Texture2D::Create("assets/textures/1SmwlRi4L6ZTT3WtE4EqT7.jpg");
+		m_GoZaRuTexture = Hazel::Texture2D::Create("assets/textures/VTeMZbCLMq2j_9EP-4624AU.png");
 	}
 
 	~ExampleLayer()
@@ -223,6 +224,8 @@ public:
 		
 		m_Texture->Bind();
 		Hazel::Renderer::Submit(m_TextureShader, m_SquareVertexArray);
+		m_GoZaRuTexture->Bind();
+		Hazel::Renderer::Submit(m_TextureShader, m_SquareVertexArray);
 
 		//Triangle
 		//Hazel::Renderer::Submit(m_Shader, m_VertexArray);
@@ -258,7 +261,7 @@ private:
 	glm::vec3 m_SquareColor = { 0.2f, 0.1f, 0.6f };
 
 	Hazel::Ref<Hazel::Shader> m_TextureShader;
-	Hazel::Ref<Hazel::Texture2D> m_Texture;
+	Hazel::Ref<Hazel::Texture2D> m_Texture, m_GoZaRuTexture;
 };
 
 class Sandbox : public Hazel::Application
