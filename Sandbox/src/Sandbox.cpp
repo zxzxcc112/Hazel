@@ -166,7 +166,7 @@ public:
 			}
 		)";
 
-		m_TextureShader.reset(Hazel::Shader::Create(texturevertexSrc, texturefragmentSrc));
+		m_TextureShader.reset(Hazel::Shader::Create("assets/shaders/Texture.glsl"));
 
 		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->Bind();
 		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
