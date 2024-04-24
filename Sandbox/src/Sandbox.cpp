@@ -73,7 +73,7 @@ public:
 			}
 		)";
 
-		m_Shader.reset(Hazel::Shader::Create(vertexSrc, fragmentSrc));
+		m_Shader = Hazel::Shader::Create("TriangleColorPos", vertexSrc, fragmentSrc);
 
 		//square
 		m_SquareVertexArray.reset(Hazel::VertexArray::Create());
@@ -131,7 +131,7 @@ public:
 			}
 		)";
 
-		m_SquareShader.reset(Hazel::Shader::Create(squarevertexSrc, squarefragmentSrc));
+		m_SquareShader = Hazel::Shader::Create("Square", squarevertexSrc, squarefragmentSrc);
 
 		std::string texturevertexSrc = R"(
 			#version 330 core
@@ -166,10 +166,10 @@ public:
 			}
 		)";
 
-		m_TextureShader.reset(Hazel::Shader::Create("assets/shaders/Texture.glsl"));
+		auto textureShader = m_ShaderLibrary.Load("shader1", "assets/shaders/Texture.glsl");
 
-		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 
 		m_Texture = Hazel::Texture2D::Create("assets/textures/1SmwlRi4L6ZTT3WtE4EqT7.jpg");
 		m_GoZaRuTexture = Hazel::Texture2D::Create("assets/textures/VTeMZbCLMq2j_9EP-4624AU.png");
@@ -222,10 +222,12 @@ public:
 			}
 		}
 		
+		auto textureShader = m_ShaderLibrary.Get("shader1");
+
 		m_Texture->Bind();
-		Hazel::Renderer::Submit(m_TextureShader, m_SquareVertexArray);
+		Hazel::Renderer::Submit(textureShader, m_SquareVertexArray);
 		m_GoZaRuTexture->Bind();
-		Hazel::Renderer::Submit(m_TextureShader, m_SquareVertexArray);
+		Hazel::Renderer::Submit(textureShader, m_SquareVertexArray);
 
 		//Triangle
 		//Hazel::Renderer::Submit(m_Shader, m_VertexArray);
@@ -246,6 +248,7 @@ public:
 	}
 
 private:
+	Hazel::ShaderLibrary m_ShaderLibrary;
 	Hazel::Ref<Hazel::Shader> m_Shader;
 	Hazel::Ref<Hazel::VertexArray> m_VertexArray;
 
@@ -260,7 +263,6 @@ private:
 
 	glm::vec3 m_SquareColor = { 0.2f, 0.1f, 0.6f };
 
-	Hazel::Ref<Hazel::Shader> m_TextureShader;
 	Hazel::Ref<Hazel::Texture2D> m_Texture, m_GoZaRuTexture;
 };
 

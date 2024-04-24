@@ -24,10 +24,18 @@ namespace Hazel
 		std::string sources = ReadFile(filepath);
 		auto shaderSources = PreProcess(sources);
 		Compile(shaderSources);
+
+		//..assets/shaders/Texture.glsl -> name = Texture
+		//Maybe can change to std::filesystem
+		auto lastSlash = filepath.find_last_of("/\\");
+		lastSlash = (lastSlash == std::string::npos ? 0 : lastSlash + 1);
+		auto lastDot = filepath.rfind('.');
+		size_t count = (lastDot == std::string::npos ? filepath.size() : lastDot) - lastSlash;
+		m_Name = filepath.substr(lastSlash, count);
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
-		:m_RendererID(0)
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+		:m_Name(name), m_RendererID(0)
 	{
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
@@ -96,7 +104,7 @@ namespace Hazel
 	{
 		std::string result;
 
-		std::ifstream in(filepath, std::ios::in, std::ios::binary);
+		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 		if (in)
 		{
 			in.seekg(0, std::ios::end);
@@ -118,7 +126,7 @@ namespace Hazel
 		HZ_CORE_ASSERT(shaderSources.size() <= 2, "Only support 2 shaders for now!");
 
 		GLuint program = glCreateProgram();
-		std::array<GLuint, 2> shaderIDs;
+		std::array<GLuint, 2> shaderIDs{};
 		unsigned int shaderIDIndex = 0;
 
 		for (auto& kv : shaderSources)
@@ -147,7 +155,7 @@ namespace Hazel
 
 				HZ_CORE_ERROR("{0}", infoLog.data());
 				HZ_CORE_ASSERT(false, "Shader compilation failure!");
-				return;
+				break;
 			}
 
 			glAttachShader(program, shader);
@@ -199,7 +207,7 @@ namespace Hazel
 
 			size_t nextLinePos = sources.find_first_not_of("\r\n", eol);
 			tokenPos = sources.find(typeToken, nextLinePos);
-			shaders[ShaderTypeFormString(type)] = sources.substr(nextLinePos, (tokenPos == std::string::npos ? sources.size() - 1 : tokenPos) - nextLinePos);
+			shaders[ShaderTypeFormString(type)] = sources.substr(nextLinePos, (tokenPos == std::string::npos ? sources.size() : tokenPos) - nextLinePos);
 		}
 
 		return shaders;
