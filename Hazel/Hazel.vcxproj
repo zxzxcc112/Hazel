@@ -31,6 +31,7 @@
     <ClInclude Include="src\Hazel\Core.h" />
     <ClInclude Include="src\Hazel\EntryPoint.h" />
     <ClInclude Include="src\Hazel\MouseButtonCodes.h" />
+    <ClInclude Include="src\Hazel\OrthographicCameraController.h" />
     <ClInclude Include="src\Hazel\Renderer\Buffer.h" />
     <ClInclude Include="src\Hazel\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Hazel\Renderer\OrthographicCamera.h" />
@@ -59,6 +60,7 @@
     <ClCompile Include="src\Hazel\LayerStack.cpp" />
     <ClCompile Include="src\Hazel\Log.cpp" />
     <ClCompile Include="src\Hazel\Application.cpp" />
+    <ClCompile Include="src\Hazel\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Hazel\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Hazel\Renderer\RenderCommand.cpp" />

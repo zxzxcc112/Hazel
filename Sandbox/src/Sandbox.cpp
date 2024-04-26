@@ -12,7 +12,7 @@ class ExampleLayer : public Hazel::Layer
 {
 public:
 	ExampleLayer()
-		:Layer("Example Layer"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_CameraRotation(0.0f)
+		:Layer("Example Layer"), m_OrthographicCameraController(1280.0f / 720.0f, true)
 	{
 		m_VertexArray.reset(Hazel::VertexArray::Create());
 
@@ -166,7 +166,7 @@ public:
 			}
 		)";
 
-		auto textureShader = m_ShaderLibrary.Load("shader1", "assets/shaders/Texture.glsl");
+		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
 		std::dynamic_pointer_cast<Hazel::OpenGLShader>(textureShader)->Bind();
 		std::dynamic_pointer_cast<Hazel::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
@@ -184,28 +184,14 @@ public:
 	{
 		HZ_CLIENT_TRACE("Timestep: {0}s, {1}ms", ts.GetSeconds(), ts.GetMilliseconds());
 
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
-			m_CameraPosition.x += m_CameraMoveSpeed * ts;
-		else if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
-			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
+		//update
+		m_OrthographicCameraController.OnUpdate(ts);
 
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_W))
-			m_CameraPosition.y += m_CameraMoveSpeed * ts;
-		else if (Hazel::Input::IsKeyPressed(HZ_KEY_S))
-			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
-
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_Q))
-			m_CameraRotation += m_CameraRotateSpeed * ts;
-		else if (Hazel::Input::IsKeyPressed(HZ_KEY_E))
-			m_CameraRotation -= m_CameraRotateSpeed * ts;
-
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
-
+		//Render
 		Hazel::RenderCommand::SetClearColor({ 0.2f, 0.3f, 0.3f, 1.0f });
 		Hazel::RenderCommand::Clear();
 
-		Hazel::Renderer::BeginScene(m_Camera);
+		Hazel::Renderer::BeginScene(m_OrthographicCameraController.GetCamera());
 
 		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f, 0.1f, 1.0f));
 
@@ -222,7 +208,7 @@ public:
 			}
 		}
 		
-		auto textureShader = m_ShaderLibrary.Get("shader1");
+		auto textureShader = m_ShaderLibrary.Get("Texture");
 
 		m_Texture->Bind();
 		Hazel::Renderer::Submit(textureShader, m_SquareVertexArray);
@@ -244,22 +230,18 @@ public:
 
 	void OnEvent(Hazel::Event& event) override
 	{
-
+		m_OrthographicCameraController.OnEvent(event);
 	}
 
 private:
+	Hazel::OrthographicCameraController m_OrthographicCameraController;
+
 	Hazel::ShaderLibrary m_ShaderLibrary;
 	Hazel::Ref<Hazel::Shader> m_Shader;
 	Hazel::Ref<Hazel::VertexArray> m_VertexArray;
 
 	Hazel::Ref<Hazel::Shader> m_SquareShader;
 	Hazel::Ref<Hazel::VertexArray> m_SquareVertexArray;
-
-	Hazel::OrthographicCamera m_Camera;
-	glm::vec3 m_CameraPosition;
-	float m_CameraRotation;
-	float m_CameraMoveSpeed = 5.0f;
-	float m_CameraRotateSpeed = 180.0f;
 
 	glm::vec3 m_SquareColor = { 0.2f, 0.1f, 0.6f };
 
