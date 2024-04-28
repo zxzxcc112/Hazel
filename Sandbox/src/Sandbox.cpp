@@ -216,7 +216,7 @@ public:
 		Hazel::Renderer::Submit(textureShader, m_SquareVertexArray);
 
 		//Triangle
-		//Hazel::Renderer::Submit(m_Shader, m_VertexArray);
+		Hazel::Renderer::Submit(m_Shader, m_VertexArray);
 
 		Hazel::Renderer::EndScene();
 	}

@@ -78,10 +78,10 @@ namespace Hazel
 	void ImGuiLayer::End()
 	{
 		ImGui::Render();
-		int display_w, display_h;
-		GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-		glfwGetFramebufferSize(window, &display_w, &display_h);
-		glViewport(0, 0, display_w, display_h);
+		//int display_w, display_h;
+		//GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
+		//glfwGetFramebufferSize(window, &display_w, &display_h);
+		//glViewport(0, 0, display_w, display_h);
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		
 		ImGuiIO& io = ImGui::GetIO();

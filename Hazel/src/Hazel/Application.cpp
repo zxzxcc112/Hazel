@@ -38,15 +38,17 @@ namespace Hazel
 			Timestep ts = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			for (Layer* layer : m_Layers)
-				layer->OnUpdate(ts);
-
+			if (!m_Minimized)
+			{
+				for (Layer* layer : m_Layers)
+					layer->OnUpdate(ts);
+			}
+			
 			// TODO: run on rendering thread
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_Layers)
 				layer->OnImGuiRender();
 			m_ImGuiLayer->End();
-
 
 			m_Window->OnUpdate();
 		}
@@ -56,6 +58,7 @@ namespace Hazel
 	{
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(OnWindowResized));
 
 		HZ_CORE_TRACE("{0}", event);
 
@@ -83,5 +86,18 @@ namespace Hazel
 	{
 		m_Running = false;
 		return true;
+	}
+	bool Application::OnWindowResized(WindowResizeEvent& e)
+	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		{
+			m_Minimized = true;
+			return false;
+		}
+
+		m_Minimized = false;
+		Renderer::OnWindowResized(e.GetWidth(), e.GetHeight());
+
+		return false;
 	}
 }
