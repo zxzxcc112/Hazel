@@ -2,17 +2,16 @@
 #include "VertexArray.h"
 
 #include "Renderer.h"
-
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 
 namespace Hazel
 {
-	VertexArray* VertexArray::Create()
+	Ref<VertexArray> VertexArray::Create()
 	{
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None: HZ_CORE_ASSERT(false, "Renderer API: None is  currently not supported!"); return nullptr;
-			case RendererAPI::API::OpenGL: return new OpenGLVertexArray();
+			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLVertexArray>();
 		}
 
 		HZ_CORE_ASSERT(false, "Unknown RendererAPI!");

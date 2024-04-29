@@ -5,5 +5,7 @@ ECHO Exiting premake...
 PAUSE
 EXIT /b 1
 )
-.\vender\premake\premake5.exe vs2022
+pushd ..\..\
+CALL .\vender\premake\premake5.exe vs2022
+popd
 PAUSE

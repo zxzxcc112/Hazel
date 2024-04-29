@@ -1,6 +1,6 @@
 #pragma once
-#include "Hazel/Core.h"
-#include "Hazel/Layer.h"
+#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Layer.h"
 
 namespace Hazel
 {
@@ -19,7 +19,6 @@ namespace Hazel
 	private:
 		float m_Time = 0.0f;
 	};
-
 }
 
 

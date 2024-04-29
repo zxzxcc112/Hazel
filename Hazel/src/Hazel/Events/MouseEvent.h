@@ -94,6 +94,4 @@ namespace Hazel
 
 		EVENT_CLASS_TYPE(MouseReleased)
 	};
-
-
 }

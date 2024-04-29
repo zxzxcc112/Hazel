@@ -1,12 +1,15 @@
 ::Copy original vs2022 build project
 
-IF EXIST .\doc\orig\Hazel.sln (
+SET PROJECTPATH=..\..\
+
+SET DESTINATION=.\doc\orig\
+
+IF EXIST %PROJECTPATH%%DESTINATION%\Hazel.sln (
 ECHO Original build projects is exist. Exiting...
 PAUSE
 EXIT /b 2
 )
 
-SET DESTINATION=.\doc\orig\
 
 SET vs2022Build=.\Hazel.sln .\Hazel\Hazel.vcxproj .\Hazel\Hazel.vcxproj.filters .\Hazel\Hazel.vcxproj.user ^
                 .\Sandbox\Sandbox.vcxproj .\Sandbox\Sandbox.vcxproj.filters .\Sandbox\Sandbox.vcxproj.user ^
@@ -14,6 +17,6 @@ SET vs2022Build=.\Hazel.sln .\Hazel\Hazel.vcxproj .\Hazel\Hazel.vcxproj.filters 
 		.\Hazel\vender\Glad\Glad.vcxproj .\Hazel\vender\Glad\Glad.vcxproj.filters  .\Hazel\vender\Glad\Glad.vcxproj.user ^
 		.\Hazel\vender\ImGui\ImGui.vcxproj .\Hazel\vender\ImGui\ImGui.vcxproj.filters  .\Hazel\vender\ImGui\ImGui.vcxproj.user
 
-FOR %%I IN (%vs2022Build%) DO XCOPY /Y %%I %DESTINATION%
+FOR %%I IN (%vs2022Build%) DO XCOPY /Y %PROJECTPATH%%%I %PROJECTPATH%%DESTINATION%
 
 PAUSE

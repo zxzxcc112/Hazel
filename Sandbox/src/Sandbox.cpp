@@ -14,7 +14,7 @@ public:
 	ExampleLayer()
 		:Layer("Example Layer"), m_OrthographicCameraController(1280.0f / 720.0f, true)
 	{
-		m_VertexArray.reset(Hazel::VertexArray::Create());
+		m_VertexArray = Hazel::VertexArray::Create();
 
 		float vertices[] = {
 			-0.5f, -0.5f, 0.0f, 0.7f, 0.2f, 0.7f, 1.0f,
@@ -23,7 +23,7 @@ public:
 		};
 
 		Hazel::Ref<Hazel::VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(Hazel::VertexBuffer::Create(vertices, sizeof(vertices)));
+		vertexBuffer = Hazel::VertexBuffer::Create(vertices, sizeof(vertices));
 
 		vertexBuffer->SetLayout({
 			{Hazel::ShaderDataType::Float3, "a_Position"},
@@ -37,7 +37,7 @@ public:
 		};
 
 		Hazel::Ref<Hazel::IndexBuffer> indexBuffer;
-		indexBuffer.reset(Hazel::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		indexBuffer = Hazel::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
 
@@ -76,7 +76,7 @@ public:
 		m_Shader = Hazel::Shader::Create("TriangleColorPos", vertexSrc, fragmentSrc);
 
 		//square
-		m_SquareVertexArray.reset(Hazel::VertexArray::Create());
+		m_SquareVertexArray = Hazel::VertexArray::Create();
 
 		float squarevertices[] = {
 			-0.7f, -0.7f, 0.0f, 0.0f, 0.0f,
@@ -86,7 +86,7 @@ public:
 		};
 
 		Hazel::Ref<Hazel::VertexBuffer> squarevertexBuffer;
-		squarevertexBuffer.reset(Hazel::VertexBuffer::Create(squarevertices, sizeof(squarevertices)));
+		squarevertexBuffer = Hazel::VertexBuffer::Create(squarevertices, sizeof(squarevertices));
 
 		squarevertexBuffer->SetLayout({
 			{Hazel::ShaderDataType::Float3, "a_Position"},
@@ -100,7 +100,7 @@ public:
 		};
 
 		Hazel::Ref<Hazel::IndexBuffer> squareindexBuffer;
-		squareindexBuffer.reset(Hazel::IndexBuffer::Create(squareindices, sizeof(squareindices) / sizeof(uint32_t)));
+		squareindexBuffer = Hazel::IndexBuffer::Create(squareindices, sizeof(squareindices) / sizeof(uint32_t));
 		m_SquareVertexArray->SetIndexBuffer(squareindexBuffer);
 
 

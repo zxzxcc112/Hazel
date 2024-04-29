@@ -13,7 +13,7 @@ namespace Hazel
 		
 		int width, height, channels;
 		unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
-		HZ_CLIENT_ASSERT(data, stbi_failure_reason());
+		HZ_CORE_ASSERT(data, stbi_failure_reason());
 
 		m_Width = width;
 		m_Height = height;

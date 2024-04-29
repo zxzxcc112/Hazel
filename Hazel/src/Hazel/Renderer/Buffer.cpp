@@ -1,9 +1,9 @@
 #include "hzpch.h"
 #include "Buffer.h"
-#include "Hazel/Core.h"
 
 #include "Renderer.h"
 
+#include "Hazel/Core/Core.h"
 #include "Platform/OpenGL/OpenGLBuffer.h"
 
 // Maybe add in future
@@ -13,12 +13,12 @@
 
 namespace Hazel
 {
-	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
 	{
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None: HZ_CORE_ASSERT(false, "Renderer API: None is  currently not supported!"); return nullptr;
-			case RendererAPI::API::OpenGL: return new OpenGLVertexBuffer(vertices, size);
+			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLVertexBuffer>(vertices, size);
 			//#ifdef HZ_PLATFORM_WINDOWS
 			//case RendererAPI::Direct3D: return new Direct3DVertexBuffer(vertices, size);
 			//#endif
@@ -28,12 +28,12 @@ namespace Hazel
 		return nullptr;
 	}
 
-	IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
 	{
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None: HZ_CORE_ASSERT(false, "Renderer API: None is  currently not supported!"); return nullptr;
-			case RendererAPI::API::OpenGL: return new OpenGLIndexBuffer(indices, count);
+			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLIndexBuffer>(indices, count);
 		}
 
 		HZ_CORE_ASSERT(false, "Unknown RendererAPI!");

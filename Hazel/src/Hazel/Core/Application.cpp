@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 
 #include "Hazel/Core/Timestep.h"
-#include "Renderer/Renderer.h"
+#include "Hazel/Renderer/Renderer.h"
 
 namespace Hazel
 {
@@ -18,7 +18,7 @@ namespace Hazel
 		s_Instance = this;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
-		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();
 
@@ -57,8 +57,8 @@ namespace Hazel
 	void Application::OnEvent(Event& event)
 	{
 		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
-		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(OnWindowResized));
+		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::OnWindowResized));
 
 		HZ_CORE_TRACE("{0}", event);
 
