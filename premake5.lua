@@ -67,7 +67,6 @@ project "Hazel"
 
 		defines
 		{
-			"HZ_PLATFORM_WINDOWS",
 			"GLFW_INCLUDE_NONE",
 			"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
 			"_CRT_SECURE_NO_WARNINGS"
@@ -127,7 +126,6 @@ project "Sandbox"
 
 		defines
 		{
-			"HZ_PLATFORM_WINDOWS",
 			"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS"
 		}
 
