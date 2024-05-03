@@ -403,3 +403,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/Hazel/vender/spdlog/include/spdlog/fmt/bundled/core.h
