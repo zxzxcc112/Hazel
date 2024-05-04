@@ -126,7 +126,8 @@ project "Sandbox"
 
 		defines
 		{
-			"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS"
+			"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
+			"_CRT_SECURE_NO_WARNINGS"
 		}
 
 	filter "configurations:Debug"
