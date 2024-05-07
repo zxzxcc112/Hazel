@@ -14,6 +14,8 @@ namespace Hazel
 	
 	Application::Application()
 	{
+		HZ_PROFILE_FUNCTION();
+
 		HZ_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
@@ -26,28 +28,44 @@ namespace Hazel
 		PushOverlay(m_ImGuiLayer);
 	}
 
-	Application::~Application() {}
+	Application::~Application()
+	{
+		HZ_PROFILE_FUNCTION();
+
+	}
 
 	void Application::Run()
 	{
+		HZ_PROFILE_FUNCTION();
+
 		HZ_CORE_INFO("The Hazel Application is running.");
 
 		while (m_Running)
 		{
+			HZ_PROFILE_SCOPE("Run Loop");
+
 			float time = (float)glfwGetTime(); //TEMP: Platform::GetTime
 			Timestep ts = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
 			if (!m_Minimized)
 			{
-				for (Layer* layer : m_Layers)
-					layer->OnUpdate(ts);
+				{
+					HZ_PROFILE_SCOPE("LayerStack OnUpdate");
+
+					for (Layer* layer : m_Layers)
+						layer->OnUpdate(ts);
+				}
 			}
 			
 			// TODO: run on rendering thread
 			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_Layers)
-				layer->OnImGuiRender();
+			{
+				HZ_PROFILE_SCOPE("LayerStack OnImGuiRender");
+
+				for (Layer* layer : m_Layers)
+					layer->OnImGuiRender();
+			}
 			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
@@ -56,6 +74,8 @@ namespace Hazel
 
 	void Application::OnEvent(Event& event)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::OnWindowResized));
@@ -72,12 +92,16 @@ namespace Hazel
 
 	void Application::PushLayer(Layer* layer)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		m_Layers.PushLayer(layer);
 		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		m_Layers.PushOverlay(overlay);
 		overlay->OnAttach();
 	}
@@ -89,6 +113,8 @@ namespace Hazel
 	}
 	bool Application::OnWindowResized(WindowResizeEvent& e)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		if (e.GetWidth() == 0 || e.GetHeight() == 0)
 		{
 			m_Minimized = true;
