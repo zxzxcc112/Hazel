@@ -10,6 +10,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "sandbox2D.h"
+#include "FlappyBird/GameLayer.h"
 
 class ExampleLayer : public Hazel::Layer
 {
@@ -257,7 +258,8 @@ public:
 	Sandbox()
 	{
 		//PushLayer(new ExampleLayer());
-		PushLayer(new Sandbox2D());
+		//PushLayer(new Sandbox2D());
+		PushLayer(new GameLayer());
 	}
 	~Sandbox() {}
 };

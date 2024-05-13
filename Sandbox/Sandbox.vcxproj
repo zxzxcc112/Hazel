@@ -20,13 +20,25 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\FlappyBird\GameLayer.cpp" />
+    <ClCompile Include="src\FlappyBird\Level.cpp" />
+    <ClCompile Include="src\FlappyBird\ParticleSystem.cpp" />
+    <ClCompile Include="src\FlappyBird\Player.cpp" />
+    <ClCompile Include="src\FlappyBird\Random.cpp" />
     <ClCompile Include="src\Sandbox.cpp" />
     <ClCompile Include="src\Sandbox2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\FlappyBird\Color.h" />
+    <ClInclude Include="src\FlappyBird\GameLayer.h" />
+    <ClInclude Include="src\FlappyBird\Level.h" />
+    <ClInclude Include="src\FlappyBird\ParticleSystem.h" />
+    <ClInclude Include="src\FlappyBird\Player.h" />
+    <ClInclude Include="src\FlappyBird\Random.h" />
     <ClInclude Include="src\Sandbox2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\shaders\FlappyBird.glsl" />
     <None Include="assets\shaders\FlatColor.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
