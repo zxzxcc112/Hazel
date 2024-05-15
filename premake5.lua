@@ -1,7 +1,12 @@
 workspace "Hazel"
 	configurations {"Debug", "Release", "Distribution"}
-	architecture "x64"
+	architecture "x86_64"
 	startproject "Sandbox"
+
+	flags
+	{
+		"MultiProcessorCompile"
+	}
 
 outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/"
 
@@ -13,9 +18,10 @@ IncludeDir["ImGui"] = "Hazel/vender/ImGui"
 IncludeDir["glm"] = "Hazel/vender/glm"
 IncludeDir["stb_image"] = "Hazel/vender/stb_image"
 
-include "Hazel/vender/GLFW"
-include "Hazel/vender/Glad"
-include "Hazel/vender/ImGui"
+group "Dependencies"
+	include "Hazel/vender/GLFW"
+	include "Hazel/vender/Glad"
+	include "Hazel/vender/ImGui"
 
 project "Hazel"
 	location "Hazel"

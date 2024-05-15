@@ -14,6 +14,7 @@ namespace Hazel
 
 	OpenGLContext::~OpenGLContext()
 	{
+		HZ_PROFILE_FUNCTION();
 
 	}
 

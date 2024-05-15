@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Glad", "Hazel\vender\Glad\G
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "Hazel\vender\ImGui\ImGui.vcxproj", "{2F03BDDE-7890-4083-A4C3-8B114DD39D9F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{C6D07287-2C45-48F1-AF92-86A758CF8510}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -59,6 +61,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{49650944-28B0-40CB-AFE9-45869C632FC8} = {C6D07287-2C45-48F1-AF92-86A758CF8510}
+		{BDD6857C-A90D-870D-52FA-6C103E10030F} = {C6D07287-2C45-48F1-AF92-86A758CF8510}
+		{2F03BDDE-7890-4083-A4C3-8B114DD39D9F} = {C6D07287-2C45-48F1-AF92-86A758CF8510}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C900C40-A78B-4BA3-BBE8-4437DC302472}

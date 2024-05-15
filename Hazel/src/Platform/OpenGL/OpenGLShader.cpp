@@ -155,10 +155,18 @@ namespace Hazel
 		if (in)
 		{
 			in.seekg(0, std::ios::end);
-			result.resize(in.tellg());
-			in.seekg(0, std::ios::beg);
-			in.read(&result[0], result.size());
-			in.close();
+			size_t size = in.tellg();
+			if (size != -1)
+			{
+				result.resize(size);
+				in.seekg(0, std::ios::beg);
+				in.read(&result[0], size);
+				in.close();
+			}
+			else
+			{
+				HZ_CORE_ERROR("Could not read from file '{0}'", filepath);
+			}
 		}
 		else
 		{
@@ -234,7 +242,10 @@ namespace Hazel
 		}
 
 		for (auto& id : shaderIDs)
+		{
 			glDetachShader(program, id);
+			glDeleteShader(id);
+		}
 
 		m_RendererID = program;
 	}
@@ -247,16 +258,17 @@ namespace Hazel
 
 		const char* typeToken = "#type";
 		size_t typeTokenLength = strlen(typeToken);
-		size_t tokenPos = sources.find(typeToken, 0);
+		size_t tokenPos = sources.find(typeToken, 0);  //Start of shader type declaration line
 		while (tokenPos != std::string::npos)
 		{
-			size_t eol = sources.find_first_of("\r\n", tokenPos);
+			size_t eol = sources.find_first_of("\r\n", tokenPos);  //End of shader type declaration line
 			HZ_CORE_ASSERT(eol, "Syntax error!");
-			size_t typeBegin = tokenPos + typeTokenLength + 1;
+			size_t typeBegin = tokenPos + typeTokenLength + 1;  //Start of shader type name (after "#type " keyword)
 			std::string type = sources.substr(typeBegin, eol - typeBegin);
 			HZ_CORE_ASSERT(ShaderTypeFormString(type), "Unknown shader type.");
 
-			size_t nextLinePos = sources.find_first_not_of("\r\n", eol);
+			size_t nextLinePos = sources.find_first_not_of("\r\n", eol); //Start of shader code after shader type declaration line
+			HZ_CORE_ASSERT(nextLinePos != std::string::npos, "Syntax error!");
 			tokenPos = sources.find(typeToken, nextLinePos);
 			shaders[ShaderTypeFormString(type)] = sources.substr(nextLinePos, (tokenPos == std::string::npos ? sources.size() : tokenPos) - nextLinePos);
 		}

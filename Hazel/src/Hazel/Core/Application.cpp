@@ -82,9 +82,9 @@ namespace Hazel
 
 		//HZ_CORE_TRACE("{0}", event);
 
-		for (auto it = m_Layers.end(); it != m_Layers.begin();)
+		for (auto it = m_Layers.rbegin(); it != m_Layers.rend();++it)
 		{
-			(*--it)->OnEvent(event);
+			(*it)->OnEvent(event);
 			if (event.Handled)
 				break;
 		}

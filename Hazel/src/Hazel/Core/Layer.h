@@ -8,7 +8,7 @@ namespace Hazel
 	{
 	public:
 		Layer(const std::string& debugName = "Layer");
-		virtual ~Layer();
+		virtual ~Layer() = default;
 
 		virtual void OnAttach() {} //When layer push to layer stack
 		virtual void OnDetach() {} //When layer pop from layer stack

@@ -5,7 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 Sandbox2D::Sandbox2D()
-	:Layer("Sandbox2D"), m_OrthographicCameraController(1280.f/ 720.0f)
+	:Layer("Sandbox2D"), m_OrthographicCameraController(1280.f/ 720.0f, true)
 {
 }
 
@@ -27,7 +27,10 @@ void Sandbox2D::OnUpdate(Hazel::Timestep ts)
 	HZ_PROFILE_FUNCTION();
 
 	//update
-	m_OrthographicCameraController.OnUpdate(ts);
+	{
+		HZ_PROFILE_SCOPE("m_OrthographicCameraController.OnUpdate");
+		m_OrthographicCameraController.OnUpdate(ts);
+	}
 
 	//render
 	{
@@ -42,7 +45,7 @@ void Sandbox2D::OnUpdate(Hazel::Timestep ts)
 
 		Hazel::Renderer2D::DrawQuad({ -1.0f, -0.5f }, { 0.5f, 0.5f }, m_SquareColor);
 		Hazel::Renderer2D::DrawQuad({ 1.0f, 1.0f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-		Hazel::Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, glm::radians(80.0f), m_CheckerboardTexture, 10.0f, {1.0f, 0.9f, 0.9f, 1.0f});
+		Hazel::Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, glm::radians(80.0f), m_CheckerboardTexture, 10.0f);
 
 		Hazel::Renderer2D::EndScene();
 	}

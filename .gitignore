@@ -9,6 +9,7 @@
 /Sandbox/imgui.ini
 /Sandbox/[Aa]ssets/
 *.json
+*.log
 
 # User-specific files
 *.rsuser

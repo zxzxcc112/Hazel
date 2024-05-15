@@ -69,7 +69,7 @@
     <ClInclude Include="src\Hazel\Core\KeyCodes.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Core\MouseButtonCodes.h">
+    <ClInclude Include="src\Hazel\Core\MouseCodes.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\GraphicsContext.h">
@@ -210,6 +210,9 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\Renderer2D.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Core\Window.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>
