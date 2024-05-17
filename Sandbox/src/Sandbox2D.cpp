@@ -45,7 +45,7 @@ void Sandbox2D::OnUpdate(Hazel::Timestep ts)
 
 		Hazel::Renderer2D::DrawQuad({ -1.0f, -0.5f }, { 0.5f, 0.5f }, m_SquareColor);
 		Hazel::Renderer2D::DrawQuad({ 1.0f, 1.0f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-		Hazel::Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, glm::radians(80.0f), m_CheckerboardTexture, 10.0f);
+		//Hazel::Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, glm::radians(80.0f), m_CheckerboardTexture, 10.0f);
 
 		Hazel::Renderer2D::EndScene();
 	}

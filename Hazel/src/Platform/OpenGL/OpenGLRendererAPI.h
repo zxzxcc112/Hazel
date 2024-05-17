@@ -14,6 +14,6 @@ namespace Hazel
 		void SetClearColor(const glm::vec4& color) override;
 		void Clear() override;
 
-		void DrawIndexed(const Hazel::Ref<VertexArray>& vertexArray) override;
+		void DrawIndexed(const Hazel::Ref<VertexArray>& vertexArray, uint32_t IndexCount = 0) override;
 	};
 }
