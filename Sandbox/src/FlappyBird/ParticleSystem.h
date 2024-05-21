@@ -13,7 +13,7 @@ struct ParticleProps
 class ParticleSystem
 {
 public:
-	ParticleSystem();
+	ParticleSystem(uint32_t maxParticles);
 
 	void Emit(const ParticleProps& props);
 
@@ -34,5 +34,6 @@ private:
 		bool Active = true;
 	};
 	std::vector<Particle> m_ParticlePool;
-	uint32_t m_PoolIndex = 0;
+	uint32_t m_PoolIndex;
+	uint32_t m_MaxParticles;
 };

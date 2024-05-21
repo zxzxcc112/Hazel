@@ -4,9 +4,10 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/compatibility.hpp>
 
-ParticleSystem::ParticleSystem()
+ParticleSystem::ParticleSystem(uint32_t maxParticles)
+	:m_MaxParticles(maxParticles), m_PoolIndex(maxParticles - 1)
 {
-	m_ParticlePool.resize(1000);
+	m_ParticlePool.resize(maxParticles);
 }
 
 void ParticleSystem::Emit(const ParticleProps& props)
@@ -33,7 +34,7 @@ void ParticleSystem::Emit(const ParticleProps& props)
 	particle.SizeBegin = props.SizeBegin + props.SizeVariation * (Random::Float() - 0.5f);
 	particle.SizeEnd = props.SizeEnd;
 
-	m_PoolIndex = ++m_PoolIndex % m_ParticlePool.size();
+	m_PoolIndex = --m_PoolIndex % m_ParticlePool.size();
 }
 
 void ParticleSystem::OnUpdate(Hazel::Timestep ts)

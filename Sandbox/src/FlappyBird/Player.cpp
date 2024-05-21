@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 Player::Player()
+	:m_ParticleSystem(1000)
 {
 	m_SmokeParticleProps.Position = { 0.0f, 0.0f };
 	m_SmokeParticleProps.Velocity = { -2.0f, 0.0f }, m_SmokeParticleProps.VelocityVariation = { 4.0f, 2.0f };

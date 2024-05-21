@@ -17,6 +17,9 @@ namespace Hazel
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& e);
 
+		inline float GetAspectRatio() const { return m_AspectRatio; }
+		inline float GetZoomLevel() const { return m_ZoomLevel; }
+
 		OrthographicCamera& GetCamera() { return m_Camera; }
 		const OrthographicCamera& GetCamera() const { return m_Camera; }
 	private:
