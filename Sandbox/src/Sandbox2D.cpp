@@ -16,6 +16,9 @@ void Sandbox2D::OnAttach()
 	m_CheckerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
 	m_SpriteSheet = Hazel::Texture2D::Create("assets/game/textures/RPGpack_sheet_2X.png");
 
+	m_Sprite = Hazel::SubTexture2D::CreateFormCoords(m_SpriteSheet, { 7, 6 }, { 128, 128 });
+	m_SpriteTree = Hazel::SubTexture2D::CreateFormCoords(m_SpriteSheet, { 0, 1 }, { 128, 128 }, { 1, 2 });
+
 	// Init here
 	m_ParticleProps.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
 	m_ParticleProps.ColorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
@@ -96,6 +99,8 @@ void Sandbox2D::OnUpdate(Hazel::Timestep ts)
 		m_ParticleSystem.OnRneder();
 
 		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.1f }, { 1.0f, 1.0f }, m_SpriteSheet);
+		Hazel::Renderer2D::DrawQuad({ 1.0f, 0.0f, 0.1f }, { 1.0f, 1.0f }, m_Sprite);
+		Hazel::Renderer2D::DrawQuad({ 2.0f, 0.0f, 0.1f }, { 1.0f, 2.0f }, m_SpriteTree);
 
 		Hazel::Renderer2D::EndScene();
 	}
