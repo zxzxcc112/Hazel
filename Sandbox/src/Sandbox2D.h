@@ -21,7 +21,7 @@ private:
 	Hazel::Ref<Hazel::Shader> m_FlatColorShader;
 
 	Hazel::Ref<Hazel::Texture2D> m_CheckerboardTexture;
-	Hazel::Ref<Hazel::Texture2D> m_Texture2;
+	Hazel::Ref<Hazel::Texture2D> m_SpriteSheet;
 
 	glm::vec4 m_SquareColor = { 0.2f, 0.1f, 0.6f, 1.0f };
 

@@ -14,12 +14,12 @@ void Sandbox2D::OnAttach()
 	HZ_PROFILE_FUNCTION();
 
 	m_CheckerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
-	m_Texture2 = Hazel::Texture2D::Create("assets/textures/160.png");
+	m_SpriteSheet = Hazel::Texture2D::Create("assets/game/textures/RPGpack_sheet_2X.png");
 
 	// Init here
 	m_ParticleProps.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
 	m_ParticleProps.ColorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
-	m_ParticleProps.SizeBegin = 0.5f, m_ParticleProps.SizeVariation = 0.3f, m_ParticleProps.SizeEnd = 0.0f;
+	m_ParticleProps.SizeBegin = 0.3f, m_ParticleProps.SizeVariation = 0.1f, m_ParticleProps.SizeEnd = 0.0f;
 	m_ParticleProps.LifeTime = 3.0f;
 	m_ParticleProps.Velocity = { 0.0f, 0.0f };
 	m_ParticleProps.VelocityVariation = { 3.0f, 1.0f };
@@ -67,7 +67,7 @@ void Sandbox2D::OnUpdate(Hazel::Timestep ts)
 	Hazel::Renderer2D::ResetStatistics();
 	{
 		HZ_PROFILE_SCOPE("Rendering Prep");
-		Hazel::RenderCommand::SetClearColor({ 0.2f, 0.3f, 0.3f, 1.0f });
+		Hazel::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
 		Hazel::RenderCommand::Clear();
 	}
 
@@ -77,11 +77,11 @@ void Sandbox2D::OnUpdate(Hazel::Timestep ts)
 
 		HZ_PROFILE_SCOPE("Rendering Scene");
 		Hazel::Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
-		Hazel::Renderer2D::DrawRotatedQuad({ -1.0f, -0.5f }, { 0.5f, 0.5f }, glm::radians(45.0f), m_SquareColor);
+		/*Hazel::Renderer2D::DrawRotatedQuad({ -1.0f, -0.5f }, { 0.5f, 0.5f }, glm::radians(45.0f), m_SquareColor);
 		Hazel::Renderer2D::DrawRotatedQuad({ 0.0f, -3.0f }, { 0.5f, 0.5f }, glm::radians(rotation), m_SquareColor);
 		Hazel::Renderer2D::DrawQuad({ 1.0f, 1.0f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
 		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 20.0f, 20.0f }, m_CheckerboardTexture, 10.0f);
-		Hazel::Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.095f}, { 1.0f, 1.0f }, glm::radians(rotation), m_Texture2, 20.0f);
+		Hazel::Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.095f}, { 1.0f, 1.0f }, glm::radians(rotation), m_CheckerboardTexture, 20.0f);
 		Hazel::Renderer2D::EndScene();
 
 		Hazel::Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
@@ -92,8 +92,10 @@ void Sandbox2D::OnUpdate(Hazel::Timestep ts)
 				glm::vec4 color = { (x + 5.0f) / 10.0f, 0.3f, (y + 5.0f) / 10.0f, 0.8f };
 				Hazel::Renderer2D::DrawQuad({x, y, -0.09f}, { 0.45f, 0.45f }, color);
 			}
-		}
+		}*/
 		m_ParticleSystem.OnRneder();
+
+		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.1f }, { 1.0f, 1.0f }, m_SpriteSheet);
 
 		Hazel::Renderer2D::EndScene();
 	}
