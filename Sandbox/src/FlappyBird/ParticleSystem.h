@@ -3,10 +3,10 @@
 
 struct ParticleProps
 {
-	glm::vec2 Position;
-	glm::vec2 Velocity, VelocityVariation;
-	glm::vec4 ColorBegin, ColorEnd;
-	float SizeBegin, SizeEnd, SizeVariation;
+	glm::vec2 Position{ 0.0f };
+	glm::vec2 Velocity{ 0.0f }, VelocityVariation{ 0.0f };
+	glm::vec4 ColorBegin{ 0.0f }, ColorEnd{ 0.0f };
+	float SizeBegin{ 0.0f }, SizeEnd{ 0.0f }, SizeVariation{ 0.0f };
 	float LifeTime = 1.0f;
 };
 

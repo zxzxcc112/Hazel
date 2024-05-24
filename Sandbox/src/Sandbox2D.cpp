@@ -4,6 +4,18 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
+static uint32_t s_MapWidth = 24;
+static const char* s_MapTiles = 
+"WWWWWWWWWWWWWWWWWWWWWWWW"
+"DWWWWWWWWWWNWWWWWWWWWWWW"
+"WWWWWDDDDWWWWWWDDDDWWWWW"
+"DWWWDDDWDDWWWWDDDDDDWWWW"
+"WWWWDDDWWWDDWWDDDDDDWWWW"
+"DWWWWWDWWWWDWWDDDDDDWWWW"
+"WWWWWWWDDDDWWWWDDDDWWWWW"
+"DWWWWWWWWWWWWWWWWWWWWWWW"
+"WWWWWWWWWWWWWWWWWWWWWWWW";
+
 Sandbox2D::Sandbox2D()
 	:Layer("Sandbox2D"), m_OrthographicCameraController(1280.f/ 720.0f, true), m_ParticleSystem(1000)
 {
@@ -18,6 +30,14 @@ void Sandbox2D::OnAttach()
 
 	m_Sprite = Hazel::SubTexture2D::CreateFormCoords(m_SpriteSheet, { 7, 6 }, { 128, 128 });
 	m_SpriteTree = Hazel::SubTexture2D::CreateFormCoords(m_SpriteSheet, { 0, 1 }, { 128, 128 }, { 1, 2 });
+
+	m_TextureMap['W'] = Hazel::SubTexture2D::CreateFormCoords(m_SpriteSheet, { 11, 11 }, { 128, 128 });
+	m_TextureMap['D'] = Hazel::SubTexture2D::CreateFormCoords(m_SpriteSheet, { 6, 11 }, { 128, 128 });
+
+	m_MapWidth = s_MapWidth;
+	m_MapHeight = (uint32_t)strlen(s_MapTiles) / m_MapWidth;
+
+	m_OrthographicCameraController.SetZoomLevel(5.0f);
 
 	// Init here
 	m_ParticleProps.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
@@ -98,9 +118,23 @@ void Sandbox2D::OnUpdate(Hazel::Timestep ts)
 		}*/
 		m_ParticleSystem.OnRneder();
 
-		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.1f }, { 1.0f, 1.0f }, m_SpriteSheet);
-		Hazel::Renderer2D::DrawQuad({ 1.0f, 0.0f, 0.1f }, { 1.0f, 1.0f }, m_Sprite);
-		Hazel::Renderer2D::DrawQuad({ 2.0f, 0.0f, 0.1f }, { 1.0f, 2.0f }, m_SpriteTree);
+		//Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.1f }, { 1.0f, 1.0f }, m_SpriteSheet);
+		//Hazel::Renderer2D::DrawQuad({ 1.0f, 0.0f, 0.1f }, { 1.0f, 1.0f }, m_Sprite);
+		//Hazel::Renderer2D::DrawQuad({ 2.0f, 0.0f, 0.1f }, { 1.0f, 2.0f }, m_SpriteTree);
+
+
+		for (uint32_t y = 0; y < m_MapHeight; y++)
+		{
+			for (uint32_t x = 0; x < m_MapWidth; x++)
+			{
+				char tileType = s_MapTiles[x + y * m_MapWidth];
+				Hazel::Ref<Hazel::SubTexture2D> texture = m_Sprite;
+				if (m_TextureMap.find(tileType) != m_TextureMap.end())
+					texture = m_TextureMap[tileType];
+
+				Hazel::Renderer2D::DrawQuad({ x - m_MapWidth / 2.0f, y - m_MapHeight / 2.0f, 0.1f }, { 1.0f, 1.0f }, texture);
+			}
+		}
 
 		Hazel::Renderer2D::EndScene();
 	}

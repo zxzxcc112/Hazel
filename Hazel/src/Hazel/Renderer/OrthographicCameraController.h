@@ -18,11 +18,15 @@ namespace Hazel
 		void OnEvent(Event& e);
 
 		inline float GetAspectRatio() const { return m_AspectRatio; }
+
+		inline void SetZoomLevel(float zoomLevel) { m_ZoomLevel = zoomLevel; CalculateView(); }
 		inline float GetZoomLevel() const { return m_ZoomLevel; }
 
 		OrthographicCamera& GetCamera() { return m_Camera; }
 		const OrthographicCamera& GetCamera() const { return m_Camera; }
 	private:
+		void CalculateView();
+
 		bool OnWindowResized(WindowResizeEvent& e);
 		bool OnMouseScrolled(MouseScrolledEvent& e);
 	private:
