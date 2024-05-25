@@ -84,9 +84,9 @@ namespace Hazel
 
 		for (auto it = m_Layers.rbegin(); it != m_Layers.rend();++it)
 		{
-			(*it)->OnEvent(event);
 			if (event.Handled)
 				break;
+			(*it)->OnEvent(event);
 		}
 	}
 

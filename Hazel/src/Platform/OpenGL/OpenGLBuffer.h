@@ -15,8 +15,8 @@ namespace Hazel
 
 		void SetData(const void* data, uint32_t size) override;
 
-		inline void SetLayout(const BufferLayout& layout) override { m_Layout = layout; }
-		inline const BufferLayout& GetLayout() const override { return m_Layout; }
+		void SetLayout(const BufferLayout& layout) override { m_Layout = layout; }
+		const BufferLayout& GetLayout() const override { return m_Layout; }
 	private:
 		uint32_t m_RendererID;
 		BufferLayout m_Layout;
@@ -31,7 +31,7 @@ namespace Hazel
 		void Bind() const override;
 		void UnBind() const override;
 
-		inline uint32_t GetCount() const override { return m_Count; }
+		uint32_t GetCount() const override { return m_Count; }
 	private:
 		uint32_t m_RendererID;
 		uint32_t m_Count;

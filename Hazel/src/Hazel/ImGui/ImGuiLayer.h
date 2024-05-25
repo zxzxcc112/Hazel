@@ -1,5 +1,5 @@
 #pragma once
-#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Base.h"
 #include "Hazel/Core/Layer.h"
 
 namespace Hazel
@@ -12,6 +12,7 @@ namespace Hazel
 
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
+		virtual void OnEvent(Event& e) override;
 
 		virtual void Begin();
 		virtual void End();

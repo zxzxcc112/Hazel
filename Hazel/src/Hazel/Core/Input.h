@@ -1,6 +1,6 @@
 #pragma once
 #include "hzpch.h"
-#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Base.h"
 #include "Hazel/Core/KeyCodes.h"
 #include "Hazel/Core/MouseCodes.h"
 
@@ -14,12 +14,12 @@ namespace Hazel
 		Input(const Input&) = delete;
 		Input& operator=(const Input&) = delete;
 
-		inline static bool IsKeyPressed(KeyCode keycode) { return s_Instance->IsKeyPressedImpl(keycode); }
-		inline static bool IsMouseButtonPressed(MouseCode button) { return s_Instance->IsMouseButtonPressedImpl(button); }
+		static bool IsKeyPressed(KeyCode keycode) { return s_Instance->IsKeyPressedImpl(keycode); }
+		static bool IsMouseButtonPressed(MouseCode button) { return s_Instance->IsMouseButtonPressedImpl(button); }
 
-		inline static std::pair<float, float> GetMousePosition() { return s_Instance->GetMousePositionImpl(); }
-		inline static float GetMouseX() { return s_Instance->GetMouseXImpl(); }
-		inline static float GetMouseY() { return s_Instance->GetMouseYImpl(); }
+		static std::pair<float, float> GetMousePosition() { return s_Instance->GetMousePositionImpl(); }
+		static float GetMouseX() { return s_Instance->GetMouseXImpl(); }
+		static float GetMouseY() { return s_Instance->GetMouseYImpl(); }
 	protected:
 		virtual bool IsKeyPressedImpl(KeyCode keycode) = 0;
 		virtual bool IsMouseButtonPressedImpl(MouseCode button) = 0;

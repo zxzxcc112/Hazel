@@ -3,7 +3,7 @@
 
 #include "Renderer.h"
 
-#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Base.h"
 #include "Platform/OpenGL/OpenGLBuffer.h"
 
 // Maybe add in future

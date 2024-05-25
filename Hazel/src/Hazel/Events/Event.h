@@ -1,7 +1,7 @@
 #pragma once
 
 #include "hzpch.h"
-#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Base.h"
 
 namespace Hazel
 {
@@ -29,7 +29,7 @@ namespace Hazel
 		EventCategoryMouseButton = BIT(4)
 	};
 
-#define EVENT_CLASS_TYPE(type)	static inline EventType GetStaticType() {return EventType::type; }\
+#define EVENT_CLASS_TYPE(type)	static EventType GetStaticType() {return EventType::type; }\
 								virtual EventType GetEventType() const override { return  GetStaticType(); }\
 								virtual const char* GetEventName() const override { return #type; }
 	
@@ -47,7 +47,7 @@ namespace Hazel
 		virtual const char* GetEventName() const = 0;
 		virtual std::string ToString() const { return GetEventName(); }
 		
-		inline bool IsInCategory(EventCategory category) const
+		bool IsInCategory(EventCategory category) const
 		{
 			return GetCategoryFlags() & category;
 		}

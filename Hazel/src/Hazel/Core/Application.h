@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Base.h"
 #include "Hazel/Core/Window.h"
 #include "Hazel/Core/LayerStack.h"
 #include "Hazel/Core/Timestep.h"
@@ -26,9 +26,9 @@ namespace Hazel
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
 
-		inline Window& GetWindow() { return *m_Window; }
+		Window& GetWindow() { return *m_Window; }
 
-		inline static Application& Get() { return *s_Instance; }
+		static Application& Get() { return *s_Instance; }
 	private:
 		void Run();
 		bool OnWindowClose(WindowCloseEvent& e);

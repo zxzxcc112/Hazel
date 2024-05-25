@@ -68,15 +68,15 @@ project "Hazel"
 		"4819"
 	}
 
+	defines
+	{
+		"GLFW_INCLUDE_NONE",
+		"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
+		"_CRT_SECURE_NO_WARNINGS"
+	}
+
 	filter "system:windows"
 		systemversion "latest"
-
-		defines
-		{
-			"GLFW_INCLUDE_NONE",
-			"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
-			"_CRT_SECURE_NO_WARNINGS"
-		}
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
@@ -127,14 +127,14 @@ project "Sandbox"
 		"4819"
 	}
 	
+	defines
+	{
+		"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
+		"_CRT_SECURE_NO_WARNINGS"
+	}
+
 	filter "system:windows"
 		systemversion "latest"
-
-		defines
-		{
-			"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
-			"_CRT_SECURE_NO_WARNINGS"
-		}
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
