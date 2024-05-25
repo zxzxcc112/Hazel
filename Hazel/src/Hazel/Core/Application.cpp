@@ -90,6 +90,11 @@ namespace Hazel
 		}
 	}
 
+	void Application::Close()
+	{
+		m_Running = false;
+	}
+
 	void Application::PushLayer(Layer* layer)
 	{
 		HZ_PROFILE_FUNCTION();
@@ -108,7 +113,7 @@ namespace Hazel
 
 	bool Application::OnWindowClose(WindowCloseEvent& event)
 	{
-		m_Running = false;
+		Close();
 		return true;
 	}
 	bool Application::OnWindowResized(WindowResizeEvent& e)
