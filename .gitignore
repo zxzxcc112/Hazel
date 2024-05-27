@@ -6,8 +6,8 @@
 # My document
 [Dd]oc/
 /vender/
-/Sandbox/imgui.ini
-/Sandbox/[Aa]ssets/
+*/imgui.ini
+*[Aa]ssets/
 *.json
 *.log
 

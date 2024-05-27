@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "Hazel\vender\ImGui
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{C6D07287-2C45-48F1-AF92-86A758CF8510}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hazel-Editor", "Hazel-Editor\Hazel-Editor.vcxproj", "{468BC897-134F-466A-A664-A8568BE6D980}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -58,6 +60,12 @@ Global
 		{2F03BDDE-7890-4083-A4C3-8B114DD39D9F}.Distribution|x64.Build.0 = Distribution|x64
 		{2F03BDDE-7890-4083-A4C3-8B114DD39D9F}.Release|x64.ActiveCfg = Release|x64
 		{2F03BDDE-7890-4083-A4C3-8B114DD39D9F}.Release|x64.Build.0 = Release|x64
+		{468BC897-134F-466A-A664-A8568BE6D980}.Debug|x64.ActiveCfg = Debug|x64
+		{468BC897-134F-466A-A664-A8568BE6D980}.Debug|x64.Build.0 = Debug|x64
+		{468BC897-134F-466A-A664-A8568BE6D980}.Distribution|x64.ActiveCfg = Distribution|x64
+		{468BC897-134F-466A-A664-A8568BE6D980}.Distribution|x64.Build.0 = Distribution|x64
+		{468BC897-134F-466A-A664-A8568BE6D980}.Release|x64.ActiveCfg = Release|x64
+		{468BC897-134F-466A-A664-A8568BE6D980}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

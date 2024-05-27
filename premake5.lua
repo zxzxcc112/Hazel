@@ -22,6 +22,7 @@ group "Dependencies"
 	include "Hazel/vender/GLFW"
 	include "Hazel/vender/Glad"
 	include "Hazel/vender/ImGui"
+group ""
 
 project "Hazel"
 	location "Hazel"
@@ -95,6 +96,64 @@ project "Hazel"
 
 project "Sandbox"
 	location "Sandbox"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+
+	targetdir ("bin/" .. outputDir .. "%{prj.name}")
+	objdir ("bin-int/" .. outputDir .. "%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs
+	{
+		"Hazel/vender/spdlog/include",
+		"Hazel/vender/glm",
+		"Hazel/vender/ImGui",
+		"Hazel/src"
+	}
+
+	links
+	{
+		"Hazel"
+	}
+
+	disablewarnings
+	{
+		"4819"
+	}
+	
+	defines
+	{
+		"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
+		"_CRT_SECURE_NO_WARNINGS"
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+
+	filter "configurations:Debug"
+		defines "HZ_DEBUG"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		defines "HZ_RELEASE"
+		runtime "Release"
+		optimize "on"
+
+	filter "configurations:Distribution"
+		defines "HZ_DIST"
+		runtime "Release"
+		optimize "on"
+
+project "Hazel-Editor"
+	location "Hazel-Editor"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"

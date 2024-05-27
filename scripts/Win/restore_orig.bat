@@ -2,7 +2,7 @@
 
 SET ProjectPath=..\..\
 SET Solution=Hazel.sln
-SET Projects=Hazel Sandbox
+SET Projects=Hazel-Editor Hazel Sandbox
 SET orig_path=.\doc\orig\
 
 IF NOT EXIST %ProjectPath%%orig_path%%Solution% (
