@@ -135,6 +135,12 @@
     <ClInclude Include="src\Hazel\Renderer\SubTexture2D.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Framebuffer.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
@@ -219,6 +225,12 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\SubTexture2D.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\Framebuffer.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>
