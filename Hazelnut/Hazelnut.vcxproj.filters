@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\HazelEditorApp.cpp">
+    <ClCompile Include="src\Hazelnut.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="src\EditorLayer.cpp">

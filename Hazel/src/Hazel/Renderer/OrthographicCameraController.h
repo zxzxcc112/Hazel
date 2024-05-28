@@ -24,6 +24,8 @@ namespace Hazel
 
 		OrthographicCamera& GetCamera() { return m_Camera; }
 		const OrthographicCamera& GetCamera() const { return m_Camera; }
+
+		void OnResize(float width, float height);
 	private:
 		void CalculateView();
 

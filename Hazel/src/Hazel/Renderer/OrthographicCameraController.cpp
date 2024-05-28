@@ -68,6 +68,12 @@ namespace Hazel
 		dispatcher.Dispatch<MouseScrolledEvent>(HZ_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
 	}
 
+	void OrthographicCameraController::OnResize(float width, float height)
+	{
+		m_AspectRatio = width / height;
+		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+	}
+
 	void OrthographicCameraController::CalculateView()
 	{
 		m_CameraTranslatationSpeed = 5.0f * m_ZoomLevel;

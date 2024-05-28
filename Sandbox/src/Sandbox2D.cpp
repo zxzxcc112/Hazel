@@ -155,7 +155,6 @@ void Sandbox2D::OnImGuiRender()
 	ImGui::Text("Indices: %d", Hazel::Renderer2D::GetStatistics().GetIndexCount());
 
 	ImGui::ColorEdit4("square color", glm::value_ptr(m_SquareColor));
-	ImGui::Image((void*)(size_t)m_CheckerboardTexture->GetRendererID(), { 256, 256 }, { 0, 1 }, { 1, 0 });
 	ImGui::End();
 }
 
