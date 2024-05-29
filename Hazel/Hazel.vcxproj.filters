@@ -63,9 +63,6 @@
     <ClInclude Include="src\Hazel\Core\Input.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\Windows\WindowsInput.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
     <ClInclude Include="src\Hazel\Core\KeyCodes.h">
       <Filter>標頭檔</Filter>
     </ClInclude>

@@ -14,9 +14,12 @@ namespace Hazel
 		virtual void OnDetach() override;
 		virtual void OnEvent(Event& e) override;
 
-		virtual void Begin();
-		virtual void End();
+		void Begin();
+		void End();
+
+		void SetBlockEvents(bool blockEvents) { m_BlockEvents = blockEvents; }
 	private:
+		bool m_BlockEvents = false;
 		float m_Time = 0.0f;
 	};
 }

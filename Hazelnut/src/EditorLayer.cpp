@@ -33,7 +33,8 @@ namespace Hazel
 		//update
 		{
 			HZ_PROFILE_SCOPE("m_OrthographicCameraController.OnUpdate");
-			m_OrthographicCameraController.OnUpdate(ts);
+			if (m_ViewportFocused)
+				m_OrthographicCameraController.OnUpdate(ts);
 		}
 
 		//render
@@ -56,7 +57,7 @@ namespace Hazel
 			Renderer2D::DrawRotatedQuad({ 0.0f, -3.0f }, { 0.5f, 0.5f }, glm::radians(rotation), m_SquareColor);
 			Renderer2D::DrawQuad({ 1.0f, 1.0f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
 			Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 20.0f, 20.0f }, m_CheckerboardTexture, 10.0f);
-			Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.095f}, { 1.0f, 1.0f }, glm::radians(rotation), m_CheckerboardTexture, 20.0f);
+			Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.08f}, { 1.0f, 1.0f }, glm::radians(rotation), m_CheckerboardTexture, 20.0f);
 			Renderer2D::EndScene();
 
 			Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
@@ -166,6 +167,11 @@ namespace Hazel
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0,0 });
 		ImGui::Begin("Viewport");
+
+		m_ViewportFocused = ImGui::IsWindowFocused();
+		m_ViewportHovered = ImGui::IsWindowHovered();
+		Application::Get().GetImGuiLayer()->SetBlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		if (m_ViewportSize != *(glm::vec2*)&viewportPanelSize)
 		{
