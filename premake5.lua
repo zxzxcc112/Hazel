@@ -1,7 +1,7 @@
 workspace "Hazel"
 	configurations {"Debug", "Release", "Distribution"}
 	architecture "x86_64"
-	startproject "Sandbox"
+	startproject "Hazelnut"
 
 	flags
 	{
@@ -17,6 +17,7 @@ IncludeDir["Glad"] = "Hazel/vender/Glad/include"
 IncludeDir["ImGui"] = "Hazel/vender/ImGui"
 IncludeDir["glm"] = "Hazel/vender/glm"
 IncludeDir["stb_image"] = "Hazel/vender/stb_image"
+IncludeDir["entt"] = "Hazel/vender/entt/include"
 
 group "Dependencies"
 	include "Hazel/vender/GLFW"
@@ -43,6 +44,7 @@ project "Hazel"
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vender/stb_image/**.h",
 		"%{prj.name}/vender/stb_image/**.cpp",
+		"%{prj.name}/vender/entt/include/**.hpp"
 	}
 
 	includedirs
@@ -53,7 +55,8 @@ project "Hazel"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}"
 	}
 
 	links
@@ -170,10 +173,11 @@ project "Hazelnut"
 
 	includedirs
 	{
+		"Hazel/src",
 		"Hazel/vender/spdlog/include",
 		"Hazel/vender/glm",
 		"Hazel/vender/ImGui",
-		"Hazel/src"
+		"Hazel/vender/entt/include"
 	}
 
 	links
