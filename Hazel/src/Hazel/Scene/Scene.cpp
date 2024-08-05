@@ -1,5 +1,8 @@
 #include "hzpch.h"
 #include "Scene.h"
+#include "Components.h"
+
+#include "Hazel/Renderer/Renderer2D.h"
 
 #include <glm/glm.hpp>
 
@@ -19,10 +22,11 @@ namespace Hazel
 
 	Scene::Scene()
 	{
+#if ENTT_EXAMPLE_CODE
 		struct MeshComponent {};
 		struct TransformComponent
 		{
-			glm::mat4 Transform;
+			glm::mat4 Transform{ 1.0f };
 
 			TransformComponent() = default;
 			TransformComponent(const TransformComponent& component) = default;
@@ -60,10 +64,27 @@ namespace Hazel
 		{
 
 		}
+#endif
 	}
 
 	Scene::~Scene()
 	{
 
+	}
+
+	void Scene::OnUpdate(Timestep ts)
+	{	
+		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		for (auto entity : group)
+		{
+			auto [transformComponent, spriteRendererComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+
+			Renderer2D::DrawQuad(transformComponent, spriteRendererComponent.Color);
+		}
+	}
+
+	entt::entity Scene::CreateEntity()
+	{
+		return m_Registry.create();
 	}
 }

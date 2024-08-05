@@ -18,6 +18,14 @@ namespace Hazel
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 
 		m_Framebuffer = Framebuffer::Create({ 1280, 720 });
+
+		m_ActiveScene = CreateRef<Scene>();
+
+		entt::entity square = m_ActiveScene->CreateEntity();
+		m_ActiveScene->Reg().emplace<TransformComponent>(square);
+		m_ActiveScene->Reg().emplace<SpriteRendererComponent>(square, glm::vec4{ 0.0f, 0.8f, 0.0f, 1.0f });
+
+		m_Square = square;
 	}
 
 	void EditorLayer::OnDetach()
@@ -53,22 +61,23 @@ namespace Hazel
 
 			HZ_PROFILE_SCOPE("Rendering Scene");
 			Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
-			Renderer2D::DrawRotatedQuad({ -1.0f, -0.5f }, { 0.5f, 0.5f }, glm::radians(45.0f), m_SquareColor);
-			Renderer2D::DrawRotatedQuad({ 0.0f, -3.0f }, { 0.5f, 0.5f }, glm::radians(rotation), m_SquareColor);
-			Renderer2D::DrawQuad({ 1.0f, 1.0f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-			Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 20.0f, 20.0f }, m_CheckerboardTexture, 10.0f);
-			Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.08f}, { 1.0f, 1.0f }, glm::radians(rotation), m_CheckerboardTexture, 20.0f);
+			m_ActiveScene->OnUpdate(ts);
+			//Renderer2D::DrawRotatedQuad({ -1.0f, -0.5f }, { 0.5f, 0.5f }, glm::radians(45.0f), m_SquareColor);
+			//Renderer2D::DrawRotatedQuad({ 0.0f, -3.0f }, { 0.5f, 0.5f }, glm::radians(rotation), m_SquareColor);
+			//Renderer2D::DrawQuad({ 1.0f, 1.0f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
+			//Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 20.0f, 20.0f }, m_CheckerboardTexture, 10.0f);
+			//Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.08f}, { 1.0f, 1.0f }, glm::radians(rotation), m_CheckerboardTexture, 20.0f);
 			Renderer2D::EndScene();
 
 			Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
-			for (float x = -5.0f; x < 5.0f; x+=0.5f)
-			{
-				for (float y = -5.0f; y < 5.0f; y+=0.5f)
-				{
-					glm::vec4 color = { (x + 5.0f) / 10.0f, 0.3f, (y + 5.0f) / 10.0f, 0.8f };
-					Renderer2D::DrawQuad({x, y, -0.09f}, { 0.45f, 0.45f }, color);
-				}
-			}
+			//for (float x = -5.0f; x < 5.0f; x+=0.5f)
+			//{
+			//	for (float y = -5.0f; y < 5.0f; y+=0.5f)
+			//	{
+			//		glm::vec4 color = { (x + 5.0f) / 10.0f, 0.3f, (y + 5.0f) / 10.0f, 0.8f };
+			//		Renderer2D::DrawQuad({x, y, -0.09f}, { 0.45f, 0.45f }, color);
+			//	}
+			//}
 			Renderer2D::EndScene();
 			m_Framebuffer->UnBind();
 		}
@@ -162,7 +171,9 @@ namespace Hazel
 		ImGui::Text("Quads: %d", Renderer2D::GetStatistics().QuadCount);
 		ImGui::Text("Vertices: %d", Renderer2D::GetStatistics().GetVertexCount());
 		ImGui::Text("Indices: %d", Renderer2D::GetStatistics().GetIndexCount());
-		ImGui::ColorEdit4("square color", glm::value_ptr(m_SquareColor));
+
+		auto& suqareColor = m_ActiveScene->Reg().get<SpriteRendererComponent>(m_Square).Color;
+		ImGui::ColorEdit4("square color", glm::value_ptr(suqareColor));
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0,0 });
