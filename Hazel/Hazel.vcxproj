@@ -47,6 +47,7 @@
     <ClInclude Include="src\Hazel\Renderer\VertexArray.h" />
     <ClInclude Include="src\Hazel\Core\Window.h" />
     <ClInclude Include="src\Hazel\Scene\Components.h" />
+    <ClInclude Include="src\Hazel\Scene\Entity.h" />
     <ClInclude Include="src\Hazel\Scene\Scene.h" />
     <ClInclude Include="src\hzpch.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />

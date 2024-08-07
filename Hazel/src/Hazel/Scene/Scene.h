@@ -5,6 +5,8 @@
 
 namespace Hazel
 {
+	class Entity;
+
 	class Scene
 	{
 	public:
@@ -13,11 +15,10 @@ namespace Hazel
 
 		void OnUpdate(Timestep ts);
 
-		entt::entity CreateEntity();
+		Entity CreateEntity(const std::string& tag);
 
-		//TEMP
-		entt::registry& Reg() { return m_Registry; }
 	private:
 		entt::registry m_Registry;
+		friend Entity;
 	};
 }

@@ -21,11 +21,10 @@ namespace Hazel
 
 		m_ActiveScene = CreateRef<Scene>();
 
-		entt::entity square = m_ActiveScene->CreateEntity();
-		m_ActiveScene->Reg().emplace<TransformComponent>(square);
-		m_ActiveScene->Reg().emplace<SpriteRendererComponent>(square, glm::vec4{ 0.0f, 0.8f, 0.0f, 1.0f });
+		Entity square = m_ActiveScene->CreateEntity("Square Entity");
+		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 0.8f, 0.0f, 1.0f });
 
-		m_Square = square;
+		m_SquareEntity = square;
 	}
 
 	void EditorLayer::OnDetach()
@@ -172,8 +171,18 @@ namespace Hazel
 		ImGui::Text("Vertices: %d", Renderer2D::GetStatistics().GetVertexCount());
 		ImGui::Text("Indices: %d", Renderer2D::GetStatistics().GetIndexCount());
 
-		auto& suqareColor = m_ActiveScene->Reg().get<SpriteRendererComponent>(m_Square).Color;
-		ImGui::ColorEdit4("square color", glm::value_ptr(suqareColor));
+		if (m_SquareEntity)
+		{
+			ImGui::Separator();
+
+			ImGui::Text(m_SquareEntity.GetComponent<TagComponent>().Tag.c_str());
+
+			auto& suqareColor = m_SquareEntity.GetComponent<SpriteRendererComponent>().Color;
+			ImGui::ColorEdit4("square color", glm::value_ptr(suqareColor));
+			
+			ImGui::Separator();
+		}
+
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0,0 });

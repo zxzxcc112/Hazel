@@ -31,6 +31,6 @@ namespace Hazel
 
 		glm::vec4 m_SquareColor = { 0.2f, 0.1f, 0.6f, 1.0f };
 
-		entt::entity m_Square;
+		Entity m_SquareEntity;
 	};
 }
