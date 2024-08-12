@@ -3,6 +3,7 @@
 #include "Components.h"
 #include "Entity.h"
 
+#include "Hazel/Renderer/Camera.h"
 #include "Hazel/Renderer/Renderer2D.h"
 
 #include <glm/glm.hpp>
@@ -75,12 +76,35 @@ namespace Hazel
 
 	void Scene::OnUpdate(Timestep ts)
 	{	
-		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		for (auto entity : group)
-		{
-			auto [transformComponent, spriteRendererComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+		//Rneder Sprites
+		Camera* mainCamera = nullptr;
+		glm::mat4* cameraTransform = nullptr;
 
-			Renderer2D::DrawQuad(transformComponent, spriteRendererComponent.Color);
+		auto view = m_Registry.view<CameraComponent, TransformComponent>();
+		for (auto entity : view)
+		{
+			auto& camera = view.get<CameraComponent>(entity);
+			if (camera.Primary)
+			{
+				mainCamera = &camera.Camera;
+				cameraTransform = &view.get<TransformComponent>(entity).Transform;
+				break;
+			}
+		}
+
+		if (mainCamera)
+		{
+			Renderer2D::BeginScene(*mainCamera, *cameraTransform);
+
+			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			for (auto entity : group)
+			{
+				auto [transformComponent, spriteRendererComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+
+				Renderer2D::DrawQuad(transformComponent, spriteRendererComponent.Color);
+			}
+
+			Renderer2D::EndScene();
 		}
 	}
 

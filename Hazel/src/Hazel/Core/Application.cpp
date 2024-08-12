@@ -8,8 +8,6 @@
 
 namespace Hazel
 {
-	#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
-
 	Application* Application::s_Instance = nullptr;
 	
 	Application::Application(const std::string& name)
@@ -44,7 +42,7 @@ namespace Hazel
 		{
 			HZ_PROFILE_SCOPE("Run Loop");
 
-			float time = (float)glfwGetTime(); //TEMP: Platform::GetTime
+			float time = (float)glfwGetTime(); // TODO: TEMP: Platform::GetTime
 			Timestep ts = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 

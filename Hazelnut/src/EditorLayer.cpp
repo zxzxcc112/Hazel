@@ -21,10 +21,15 @@ namespace Hazel
 
 		m_ActiveScene = CreateRef<Scene>();
 
-		Entity square = m_ActiveScene->CreateEntity("Square Entity");
-		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 0.8f, 0.0f, 1.0f });
+		m_SquareEntity = m_ActiveScene->CreateEntity("Square Entity");
+		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 0.8f, 0.0f, 1.0f });
 
-		m_SquareEntity = square;
+		m_PrimaryCameraEntity = m_ActiveScene->CreateEntity("Primary Camera Entity");
+		m_PrimaryCameraEntity.AddComponent<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+
+		m_SecondCameraEntity = m_ActiveScene->CreateEntity("Second Camera Entity");
+		m_SecondCameraEntity.AddComponent<CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+		m_SecondCameraEntity.GetComponent<CameraComponent>().Primary = false;
 	}
 
 	void EditorLayer::OnDetach()
@@ -36,6 +41,14 @@ namespace Hazel
 	void EditorLayer::OnUpdate(Timestep ts)
 	{
 		HZ_PROFILE_FUNCTION();
+
+		//resize frame buffer
+		const FramebufferSpecification& spec = m_Framebuffer->GetSpecification();
+		if (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y)
+		{
+			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_OrthographicCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+		}
 
 		//update
 		{
@@ -59,8 +72,9 @@ namespace Hazel
 			rotation += 90.0f * ts;
 
 			HZ_PROFILE_SCOPE("Rendering Scene");
-			Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
 			m_ActiveScene->OnUpdate(ts);
+
+			Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
 			//Renderer2D::DrawRotatedQuad({ -1.0f, -0.5f }, { 0.5f, 0.5f }, glm::radians(45.0f), m_SquareColor);
 			//Renderer2D::DrawRotatedQuad({ 0.0f, -3.0f }, { 0.5f, 0.5f }, glm::radians(rotation), m_SquareColor);
 			//Renderer2D::DrawQuad({ 1.0f, 1.0f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
@@ -183,6 +197,15 @@ namespace Hazel
 			ImGui::Separator();
 		}
 
+		
+		if (ImGui::Checkbox("Primary Camera", &m_UsePrimaryCamera))
+		{
+			m_PrimaryCameraEntity.GetComponent<CameraComponent>().Primary = m_UsePrimaryCamera;
+			m_SecondCameraEntity.GetComponent<CameraComponent>().Primary = !m_UsePrimaryCamera;
+		}
+
+		ImGui::DragFloat3("Camera Transform", glm::value_ptr(m_PrimaryCameraEntity.GetComponent<TransformComponent>().Transform[3]));
+
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0,0 });
@@ -193,12 +216,8 @@ namespace Hazel
 		Application::Get().GetImGuiLayer()->SetBlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		if (m_ViewportSize != *(glm::vec2*)&viewportPanelSize && viewportPanelSize.x > 0 && viewportPanelSize.y > 0)
-		{
-			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_OrthographicCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
-		}
+		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+
 		ImGui::Image((void*)(size_t)m_Framebuffer->GetColorAttachmentID(), viewportPanelSize, { 0, 1 }, { 1, 0 });
 		ImGui::End();
 		ImGui::PopStyleVar();

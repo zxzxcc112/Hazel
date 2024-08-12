@@ -32,5 +32,8 @@ namespace Hazel
 		glm::vec4 m_SquareColor = { 0.2f, 0.1f, 0.6f, 1.0f };
 
 		Entity m_SquareEntity;
+		Entity m_PrimaryCameraEntity;
+		Entity m_SecondCameraEntity;
+		bool m_UsePrimaryCamera = true;
 	};
 }
