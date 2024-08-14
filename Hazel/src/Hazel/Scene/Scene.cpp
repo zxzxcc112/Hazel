@@ -74,6 +74,14 @@ namespace Hazel
 
 	}
 
+	Entity Scene::CreateEntity(const std::string& tag = std::string())
+	{
+		Entity entity = { m_Registry.create(), this };
+		entity.AddComponent<TransformComponent>();
+		entity.AddComponent<TagComponent>(tag);
+		return entity;
+	}
+
 	void Scene::OnUpdate(Timestep ts)
 	{	
 		//Rneder Sprites
@@ -108,11 +116,20 @@ namespace Hazel
 		}
 	}
 
-	Entity Scene::CreateEntity(const std::string& tag = std::string())
+	void Scene::OnViewportResize(uint32_t width, uint32_t height)
 	{
-		Entity entity = { m_Registry.create(), this };
-		entity.AddComponent<TransformComponent>();
-		entity.AddComponent<TagComponent>(tag);
-		return entity;
+		m_ViewportWidth = width;
+		m_ViewportHeight = height;
+
+		// Resize our non-FixedAspectRatio cameras
+		auto view = m_Registry.view<CameraComponent>();
+		for (auto entity : view)
+		{
+			auto& cameraComponent = view.get<CameraComponent>(entity);
+			if (!cameraComponent.FixedAspectRatio)
+			{
+				cameraComponent.Camera.SetViewportSize(width, height);
+			}
+		}
 	}
 }

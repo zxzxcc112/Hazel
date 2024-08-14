@@ -25,10 +25,10 @@ namespace Hazel
 		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 0.8f, 0.0f, 1.0f });
 
 		m_PrimaryCameraEntity = m_ActiveScene->CreateEntity("Primary Camera Entity");
-		m_PrimaryCameraEntity.AddComponent<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+		m_PrimaryCameraEntity.AddComponent<CameraComponent>();
 
 		m_SecondCameraEntity = m_ActiveScene->CreateEntity("Second Camera Entity");
-		m_SecondCameraEntity.AddComponent<CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+		m_SecondCameraEntity.AddComponent<CameraComponent>();
 		m_SecondCameraEntity.GetComponent<CameraComponent>().Primary = false;
 	}
 
@@ -48,6 +48,7 @@ namespace Hazel
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_OrthographicCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
 
 		//update
@@ -79,7 +80,7 @@ namespace Hazel
 			//Renderer2D::DrawRotatedQuad({ 0.0f, -3.0f }, { 0.5f, 0.5f }, glm::radians(rotation), m_SquareColor);
 			//Renderer2D::DrawQuad({ 1.0f, 1.0f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
 			//Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 20.0f, 20.0f }, m_CheckerboardTexture, 10.0f);
-			//Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.08f}, { 1.0f, 1.0f }, glm::radians(rotation), m_CheckerboardTexture, 20.0f);
+			Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.08f}, { 1.0f, 1.0f }, glm::radians(rotation), m_CheckerboardTexture, 1.0f);
 			Renderer2D::EndScene();
 
 			Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
@@ -205,6 +206,14 @@ namespace Hazel
 		}
 
 		ImGui::DragFloat3("Camera Transform", glm::value_ptr(m_PrimaryCameraEntity.GetComponent<TransformComponent>().Transform[3]));
+
+		if (m_SecondCameraEntity.GetComponent<CameraComponent>().Primary)
+		{
+			auto& camera = m_SecondCameraEntity.GetComponent<CameraComponent>().Camera;
+			float size = camera.GetOrthographicSize();
+			if(ImGui::DragFloat("Orthographic Size", &size))
+				camera.SetOrthographicSize(size);
+		}
 
 		ImGui::End();
 

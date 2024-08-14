@@ -156,6 +156,9 @@
     <ClInclude Include="src\Hazel\Renderer\Camera.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\SceneCamera.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
@@ -249,6 +252,9 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Scene\Scene.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\SceneCamera.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

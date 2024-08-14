@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 
-#include "Hazel/Renderer/Camera.h"
+#include "Hazel/Renderer/SceneCamera.h"
 
 namespace Hazel
 {
@@ -41,12 +41,11 @@ namespace Hazel
 
 	struct CameraComponent
 	{
-		Hazel::Camera Camera;
-		bool Primary = true; // TODO: think about
+		SceneCamera Camera;
+		bool Primary = true; // TODO: think about moving to scene
+		bool FixedAspectRatio = false;
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent& component) = default;
-		CameraComponent(const glm::mat4& projection)
-			:Camera(projection) {}
 	};
 }
