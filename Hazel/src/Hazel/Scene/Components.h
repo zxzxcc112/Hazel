@@ -4,6 +4,8 @@
 
 #include "Hazel/Renderer/SceneCamera.h"
 
+#include "Hazel/Scene/ScriptableEntity.h"
+
 namespace Hazel
 {
 	struct TagComponent
@@ -47,5 +49,28 @@ namespace Hazel
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent& component) = default;
+	};
+
+	struct NativeScriptComponent
+	{
+		ScriptableEntity* Instance = nullptr;
+
+		std::function<void()> InstantiateFunction = nullptr;
+		std::function<void()> DestroyInstanceFunction = nullptr;
+
+		std::function<void(ScriptableEntity*)> OnCreateFunction = nullptr;
+		std::function<void(ScriptableEntity*)> OnDestroyFunction = nullptr;
+		std::function<void(ScriptableEntity*, Timestep)> OnUpdateFunction = nullptr;
+
+		template<typename T>
+		void Bind()
+		{
+			InstantiateFunction = [&]() { Instance = new T(); };
+			DestroyInstanceFunction = [&]() { delete (T*)Instance; Instance = nullptr; };
+
+			OnCreateFunction = [](ScriptableEntity* instance) { ((T*)instance)->OnCreate(); };
+			OnDestroyFunction = [](ScriptableEntity* instance) { ((T*)instance)->OnDestroy(); };
+			OnUpdateFunction = [](ScriptableEntity* instance, Timestep ts) { ((T*)instance)->OnUpdate(ts); };
+		}
 	};
 }
