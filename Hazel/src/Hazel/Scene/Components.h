@@ -55,22 +55,14 @@ namespace Hazel
 	{
 		ScriptableEntity* Instance = nullptr;
 
-		std::function<void()> InstantiateFunction = nullptr;
-		std::function<void()> DestroyInstanceFunction = nullptr;
-
-		std::function<void(ScriptableEntity*)> OnCreateFunction = nullptr;
-		std::function<void(ScriptableEntity*)> OnDestroyFunction = nullptr;
-		std::function<void(ScriptableEntity*, Timestep)> OnUpdateFunction = nullptr;
+		ScriptableEntity* (*InstantiateScript)() = nullptr;
+		void (*DestroyScript)(NativeScriptComponent*) = nullptr;
 
 		template<typename T>
 		void Bind()
 		{
-			InstantiateFunction = [&]() { Instance = new T(); };
-			DestroyInstanceFunction = [&]() { delete (T*)Instance; Instance = nullptr; };
-
-			OnCreateFunction = [](ScriptableEntity* instance) { ((T*)instance)->OnCreate(); };
-			OnDestroyFunction = [](ScriptableEntity* instance) { ((T*)instance)->OnDestroy(); };
-			OnUpdateFunction = [](ScriptableEntity* instance, Timestep ts) { ((T*)instance)->OnUpdate(ts); };
+			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
+			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
 		}
 	};
 }
