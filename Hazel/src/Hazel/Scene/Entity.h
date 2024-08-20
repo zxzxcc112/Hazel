@@ -1,6 +1,7 @@
 #pragma once
 
 #include <entt.hpp>
+#include "Hazel/Core/Log.h"
 #include "Hazel/Scene/Scene.h"
 
 namespace Hazel
@@ -44,6 +45,15 @@ namespace Hazel
 		}
 
 		operator bool() { return m_EntityHandle != entt::null; }
+		operator uint32_t() { return (uint32_t)m_EntityHandle; }
+		bool operator==(const Entity& other)
+		{
+			return m_EntityHandle == other.m_EntityHandle && m_Scene == other.m_Scene;
+		}
+		bool operator!=(const Entity& other)
+		{
+			return !(*this == other);
+		}
 	private:
 		entt::entity m_EntityHandle = entt::null;
 		Scene* m_Scene = nullptr;
