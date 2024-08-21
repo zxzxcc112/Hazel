@@ -210,7 +210,7 @@ namespace Hazel
 			ImGui::EndMenuBar();
 		}
 		ImGui::End();
-		
+
 		m_SceneHierarchyPanel.OnImGuiRender();
 
 		ImGui::Begin("Settings");
