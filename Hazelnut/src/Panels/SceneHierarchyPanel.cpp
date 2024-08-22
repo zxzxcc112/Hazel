@@ -93,5 +93,66 @@ namespace Hazel
 				ImGui::TreePop();
 			}
 		}
+
+		if (entity.HasComponent<CameraComponent>())
+		{
+			if (ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Camera"))
+			{
+				auto& cameraComponent = entity.GetComponent<CameraComponent>();
+				auto& camera = cameraComponent.Camera;
+
+				const char* projectionTypeStrings[] = { "Perspective", "Orthographic", "third", "fourth", "5.", "6.", "7."};
+				const char* currentProjectionTypeString = projectionTypeStrings[(int)camera.GetProjectionType()];
+
+				ImGui::Checkbox("Primary", &cameraComponent.Primary);
+
+				if (ImGui::BeginCombo("Projection", currentProjectionTypeString))
+				{
+					for (int i = 0; i < 2; i++)
+					{
+						const bool isSelected = currentProjectionTypeString == projectionTypeStrings[i];
+						if (ImGui::Selectable(projectionTypeStrings[i], isSelected))
+							camera.SetProjectionType((SceneCamera::ProjectionType)i);
+
+						if (isSelected)
+							ImGui::SetItemDefaultFocus();
+					}
+					ImGui::EndCombo();
+				}
+
+				if (camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective)
+				{
+					float verticalFOV = camera.GetPerspectiveVerticalFOV();
+					if (ImGui::DragFloat("VerticalFOV", &verticalFOV))
+						camera.SetPerspectiveVerticalFOV(verticalFOV);
+
+					float farClip = camera.GetPerspectiveFar();
+					if (ImGui::DragFloat("Far", &farClip))
+						camera.SetPerspectiveFar(farClip);
+
+					float nearClip = camera.GetPerspectiveNear();
+					if (ImGui::DragFloat("Near", &nearClip))
+						camera.SetPerspectiveNear(nearClip);
+				}
+				else
+				{
+					float size = camera.GetOrthographicSize();
+					if (ImGui::DragFloat("Size", &size))
+						camera.SetOrthographicSize(size);
+
+					float farClip = camera.GetOrthographicFar();
+					if (ImGui::DragFloat("Far", &farClip))
+						camera.SetOrthographicFar(farClip);
+
+					float nearClip = camera.GetOrthographicNear();
+					if (ImGui::DragFloat("Near", &nearClip))
+						camera.SetOrthographicNear(nearClip);
+					
+					ImGui::Checkbox("Fixed Aspect Ratio", &cameraComponent.FixedAspectRatio);
+				}
+
+				ImGui::TreePop();
+			}
+		}
 	}
 }
