@@ -8,6 +8,19 @@
 
 namespace Hazel
 {
+	template<typename T, typename Func>
+	static void ComponentsLayoutTemplate(Entity& entity, const char* label, Func&& func)
+	{
+		if (entity.HasComponent<T>())
+		{
+			if (ImGui::TreeNodeEx((void*)typeid(T).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, label))
+			{
+				func();
+				ImGui::TreePop();
+			}
+		}
+	}
+
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
 		:m_Context(context)
 	{
@@ -154,5 +167,20 @@ namespace Hazel
 				ImGui::TreePop();
 			}
 		}
+
+		if (entity.HasComponent<SpriteRendererComponent>())
+		{
+			if (ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Sprite Renderer"))
+			{
+				auto& src = entity.GetComponent<SpriteRendererComponent>();
+				ImGui::ColorEdit4("Color", glm::value_ptr(src.Color));
+				ImGui::TreePop();
+			}
+		}
+
+		//ComponentsLayoutTemplate<SpriteRendererComponent>(entity, "Sprite Renderer", [&]() {
+		//	auto& src = entity.GetComponent<SpriteRendererComponent>();
+		//	ImGui::ColorEdit4("Color", glm::value_ptr(src.Color));
+		//});
 	}
 }
