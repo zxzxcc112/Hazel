@@ -47,7 +47,7 @@ namespace Hazel
 
 		//Rneder Sprites
 		Camera* mainCamera = nullptr;
-		glm::mat4* cameraTransform = nullptr;
+		glm::mat4 cameraTransform;
 
 		auto view = m_Registry.view<CameraComponent, TransformComponent>();
 		for (auto entity : view)
@@ -56,14 +56,14 @@ namespace Hazel
 			if (camera.Primary)
 			{
 				mainCamera = &camera.Camera;
-				cameraTransform = &view.get<TransformComponent>(entity).Transform;
+				cameraTransform = view.get<TransformComponent>(entity).GetTransform();
 				break;
 			}
 		}
 
 		if (mainCamera)
 		{
-			Renderer2D::BeginScene(*mainCamera, *cameraTransform);
+			Renderer2D::BeginScene(*mainCamera, cameraTransform);
 
 			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group)

@@ -51,7 +51,7 @@ namespace Hazel
 		}
 		else
 		{
-			m_Projection = glm::perspective(glm::radians(m_VerticalFOV), m_AspectRatio, m_PerspectiveNear, m_PerspectiveFar);
+			m_Projection = glm::perspective(m_VerticalFOV, m_AspectRatio, m_PerspectiveNear, m_PerspectiveFar);
 		}
 	}
 }

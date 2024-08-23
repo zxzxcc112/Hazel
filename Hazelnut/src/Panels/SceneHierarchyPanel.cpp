@@ -1,6 +1,8 @@
 #include "SceneHierarchyPanel.h"
 
 #include <imgui.h>
+#include <imgui_internal.h>
+
 #include <entt.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -19,6 +21,68 @@ namespace Hazel
 				ImGui::TreePop();
 			}
 		}
+	}
+
+	static void DrawVec3Control(const std::string& label, glm::vec3& values, float resetValue = 0.0f, float columnWidth = 100.0f)
+	{
+		ImGui::PushID(label.c_str());
+
+		ImGui::Columns(2);
+		ImGui::SetColumnWidth(0, columnWidth);
+		ImGui::Text(label.c_str());
+		ImGui::NextColumn();
+
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 0 });
+		ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
+
+		float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+		ImVec2 buttonSize = { lineHeight + 3.0f, lineHeight };
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.7f, 0.15f, 0.1f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.7f, 0.15f, 0.1f, 1.0f));
+
+		if (ImGui::Button("X", buttonSize))
+			values.x = resetValue;
+
+		ImGui::PopStyleColor(3);
+
+		ImGui::SameLine();
+		ImGui::DragFloat("##X", &values.x, 0.1f, 0.0f, 0.0f, "%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine();
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.55f, 0.1f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.75f, 0.0f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.15f, 0.55f, 0.1f, 1.0f));
+
+		if (ImGui::Button("Y", buttonSize))
+			values.y = resetValue;
+
+		ImGui::PopStyleColor(3);
+
+		ImGui::SameLine();
+		ImGui::DragFloat("##Y", &values.y, 0.1f, 0.0f, 0.0f, "%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine();
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.1f, 0.75f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.2f, 1.0f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.2f, 0.1f, 0.75f, 1.0f));
+
+		if (ImGui::Button("Z", buttonSize))
+			values.z = resetValue;
+
+		ImGui::PopStyleColor(3);
+
+		ImGui::SameLine();
+		ImGui::DragFloat("##Z", &values.z, 0.1f, 0.0f, 0.0f, "%.2f");
+		ImGui::PopItemWidth();
+
+		ImGui::PopStyleVar();
+		ImGui::Columns(1);
+
+		ImGui::PopID();
 	}
 
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
@@ -100,8 +164,12 @@ namespace Hazel
 		{
 			if (ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
 			{
-				auto& transform = entity.GetComponent<TransformComponent>().Transform;
-				ImGui::DragFloat3("Transform", glm::value_ptr(transform[3]), 0.1f);
+				auto& tc = entity.GetComponent<TransformComponent>();
+				DrawVec3Control("Translation", tc.Translation);
+				glm::vec3 degrees = glm::degrees(tc.Rotation);
+				DrawVec3Control("Rotation", degrees);
+				tc.Rotation = glm::radians(degrees);
+				DrawVec3Control("Scale", tc.Scale, 1.0f);
 
 				ImGui::TreePop();
 			}
@@ -135,9 +203,9 @@ namespace Hazel
 
 				if (camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective)
 				{
-					float verticalFOV = camera.GetPerspectiveVerticalFOV();
+					float verticalFOV = glm::degrees(camera.GetPerspectiveVerticalFOV());
 					if (ImGui::DragFloat("VerticalFOV", &verticalFOV))
-						camera.SetPerspectiveVerticalFOV(verticalFOV);
+						camera.SetPerspectiveVerticalFOV(glm::radians(verticalFOV));
 
 					float farClip = camera.GetPerspectiveFar();
 					if (ImGui::DragFloat("Far", &farClip))
