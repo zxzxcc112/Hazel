@@ -27,7 +27,9 @@ namespace Hazel
 		T& AddComponent(Args&&... args)
 		{
 			HZ_CORE_ASSERT(!HasComponent<T>(), "Entity already has component!");
-			return m_Scene->m_Registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
+			T& component = m_Scene->m_Registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
+			m_Scene->OnComponentAdded<T>(*this, component);
+			return component;
 		}
 
 		template<typename T>
@@ -45,6 +47,7 @@ namespace Hazel
 		}
 
 		operator bool() { return m_EntityHandle != entt::null; }
+		operator entt::entity() { return m_EntityHandle; }
 		operator uint32_t() { return (uint32_t)m_EntityHandle; }
 		bool operator==(const Entity& other)
 		{
