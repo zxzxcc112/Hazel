@@ -18,6 +18,7 @@ namespace Hazel
 		void End();
 
 		void SetBlockEvents(bool blockEvents) { m_BlockEvents = blockEvents; }
+		void SetDarkThemeColors();
 	private:
 		bool m_BlockEvents = false;
 		float m_Time = 0.0f;

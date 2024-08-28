@@ -15,6 +15,10 @@ namespace Hazel
 	{
 		HZ_PROFILE_FUNCTION();
 
+		ImGuiIO& io = ImGui::GetIO();
+		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Noto_Sans_TC/static/NotoSansTC-Regular.ttf", 18.0f);
+		io.Fonts->AddFontFromFileTTF("assets/fonts/Noto_Sans_TC/static/NotoSansTC-Bold.ttf", 18.0f);
+
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 
 		m_Framebuffer = Framebuffer::Create({ 1280, 720 });
@@ -183,11 +187,16 @@ namespace Hazel
 
 		// Submit the DockSpace
 		ImGuiIO& io = ImGui::GetIO();
+		ImGuiStyle& style = ImGui::GetStyle();
+		float windowMinSizeX = style.WindowMinSize.x;
+		style.WindowMinSize.x = 370.0f;
 		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 		{
 			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}
+		style.WindowMinSize.x = windowMinSizeX;
+
 
 		if (ImGui::BeginMenuBar())
 		{
