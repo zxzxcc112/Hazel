@@ -1,5 +1,7 @@
 #pragma once
-#include "Hazel/Window.h"
+#include "Hazel/Core/Window.h"
+#include "Hazel/Renderer/GraphicsContext.h"
+
 #include <GLFW/glfw3.h>
 
 namespace Hazel
@@ -12,19 +14,21 @@ namespace Hazel
 
 		void OnUpdate() override;
 
-		inline unsigned int GetWidth() const override { return m_Data.Width; }
-		inline unsigned int GetHeight() const override { return m_Data.Height; }
-		inline void* Get() override { return (void*) m_Window; }
+		unsigned int GetWidth() const override { return m_Data.Width; }
+		unsigned int GetHeight() const override { return m_Data.Height; }
 
 		// Window attributes
-		inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
+		void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override { return m_Data.VSync; }
+
+		void* GetNativeWindow() const override { return m_Window; }
 	private:
 		void Init(const WindowProps& props);
 		void Shotdown();
 	private:
 		GLFWwindow* m_Window;
+		Scope<GraphicsContext> m_Context;
 
 		struct WindowData
 		{
@@ -37,7 +41,4 @@ namespace Hazel
 
 		WindowData m_Data;
 	};
-
 }
-
-

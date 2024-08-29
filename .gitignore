@@ -6,7 +6,10 @@
 # My document
 [Dd]oc/
 /vender/
-/Sandbox/imgui.ini
+*/imgui.ini
+*[Aa]ssets/
+*.json
+*.log
 
 # User-specific files
 *.rsuser
@@ -22,7 +25,7 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
+
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
@@ -402,3 +405,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/Hazel/vender/spdlog/include/spdlog/fmt/bundled/core.h

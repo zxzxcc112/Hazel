@@ -5,53 +5,68 @@
 #include "Hazel/Events/KeyEvent.h"
 #include "Hazel/Events/MouseEvent.h"
 
-#include <glad/glad.h>
+#include "Hazel/Renderer/RendererAPI.h"
+
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Hazel
 {
-	static bool s_GLFWInitialized = false;
+	static uint8_t s_GLFWWindowCount = 0;
 
 	static void GLFWErrorCallback(int error, const char* description)
 	{
 		HZ_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
 
-	Window* Window::Create(const WindowProps& props)
-	{
-		return new WindowsWindow(props);
-	}
-
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
+		HZ_PROFILE_FUNCTION();
+
 		Shotdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
 		HZ_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
-		if (!s_GLFWInitialized)
+		if (s_GLFWWindowCount == 0)
 		{
-			// TODO: glfwTerminate on system shotdown
+			HZ_PROFILE_SCOPE("glfwInit");
+
+			HZ_CORE_INFO("Initializing GLFW");
 			int success = glfwInit();
 			HZ_CORE_ASSERT(success, "glfw initialize Failed!");
 			glfwSetErrorCallback(GLFWErrorCallback);
-			s_GLFWInitialized = true;
 		}
 
-		m_Window = glfwCreateWindow(props.Width, props.Height, props.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
-		int gladInit = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		HZ_CORE_ASSERT(gladInit, "Glad initialize failed!");
+		{
+			HZ_PROFILE_SCOPE("glfwCreateWindow");
+
+#ifdef HZ_DEBUG
+			if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
+				glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+#endif
+
+			m_Window = glfwCreateWindow(props.Width, props.Height, props.Title.c_str(), nullptr, nullptr);
+			++s_GLFWWindowCount;
+		}
+
+		m_Context = CreateScope<OpenGLContext>(m_Window);
+		m_Context->Init();
+		
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
@@ -82,19 +97,19 @@ namespace Hazel
 			{
 				case GLFW_PRESS:
 				{
-					KeyPressedEvent event(key, 0);
+					KeyPressedEvent event(static_cast<KeyCode>(key), 0);
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_REPEAT:
 				{
-					KeyPressedEvent event(key, 1);
+					KeyPressedEvent event(static_cast<KeyCode>(key), 1);
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
-					KeyReleasedEvent event(key);
+					KeyReleasedEvent event(static_cast<KeyCode>(key));
 					data.EventCallback(event);
 					break;
 				}
@@ -105,7 +120,7 @@ namespace Hazel
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-			KeyTypedEvent event(codepoint);
+			KeyTypedEvent event(static_cast<KeyCode>(codepoint));
 			data.EventCallback(event);
 		});
 
@@ -117,13 +132,13 @@ namespace Hazel
 			{
 				case GLFW_PRESS:
 				{
-					MouseButtonPressedEvent event(button);
+					MouseButtonPressedEvent event(static_cast<MouseCode>(button));
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
-					MouseButtonReleasedEvent event(button);
+					MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
 					data.EventCallback(event);
 					break;
 				}
@@ -134,7 +149,7 @@ namespace Hazel
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-			MouseScrolledEvent event(xoffset, yoffset);
+			MouseScrolledEvent event((float)xoffset, (float)yoffset);
 			data.EventCallback(event);
 		});
 
@@ -149,17 +164,28 @@ namespace Hazel
 
 	void WindowsWindow::Shotdown()
 	{
+		HZ_PROFILE_FUNCTION();
+
 		glfwDestroyWindow(m_Window);
+		if (--s_GLFWWindowCount == 0)
+		{
+			HZ_CORE_INFO("Terminating GLFW");
+			glfwTerminate();
+		}
 	}
 
 	void WindowsWindow::OnUpdate()
 	{
+		HZ_PROFILE_FUNCTION();
+
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		if (enabled)
 		{
 			glfwSwapInterval(1);

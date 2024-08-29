@@ -20,7 +20,28 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Sandbox.cpp" />
+    <ClCompile Include="src\ExampleLayer.cpp" />
+    <ClCompile Include="src\FlappyBird\GameLayer.cpp" />
+    <ClCompile Include="src\FlappyBird\Level.cpp" />
+    <ClCompile Include="src\FlappyBird\ParticleSystem.cpp" />
+    <ClCompile Include="src\FlappyBird\Player.cpp" />
+    <ClCompile Include="src\FlappyBird\Random.cpp" />
+    <ClCompile Include="src\SandboxApp.cpp" />
+    <ClCompile Include="src\Sandbox2D.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ExampleLayer.h" />
+    <ClInclude Include="src\FlappyBird\Color.h" />
+    <ClInclude Include="src\FlappyBird\GameLayer.h" />
+    <ClInclude Include="src\FlappyBird\Level.h" />
+    <ClInclude Include="src\FlappyBird\ParticleSystem.h" />
+    <ClInclude Include="src\FlappyBird\Player.h" />
+    <ClInclude Include="src\FlappyBird\Random.h" />
+    <ClInclude Include="src\Sandbox2D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\FlappyBird.glsl" />
+    <None Include="assets\shaders\FlatColor.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -45,6 +66,7 @@
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">
     <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -61,27 +83,29 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <CopyLocalProjectReference>true</CopyLocalProjectReference>
+    <CopyLocalProjectReference>false</CopyLocalProjectReference>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <CopyLocalProjectReference>true</CopyLocalProjectReference>
+    <CopyLocalProjectReference>false</CopyLocalProjectReference>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <CopyLocalProjectReference>true</CopyLocalProjectReference>
+    <CopyLocalProjectReference>false</CopyLocalProjectReference>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>HZ_PLATFORM_WINDOWS;HZ_DEBUG;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CRT_SECURE_NO_WARNINGS;HZ_DEBUG;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Hazel\src;$(SolutionDir)Hazel\vender\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)Hazel\src;$(SolutionDir)Hazel\vender\spdlog\include;$(SolutionDir)Hazel\vender\glm;$(SolutionDir)Hazel\vender\ImGui;$(SolutionDir)Hazel\vender\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -94,11 +118,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>HZ_PLATFORM_WINDOWS;HZ_RELEASE;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CRT_SECURE_NO_WARNINGS;HZ_RELEASE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Hazel\src;$(SolutionDir)Hazel\vender\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)Hazel\src;$(SolutionDir)Hazel\vender\spdlog\include;$(SolutionDir)Hazel\vender\glm;$(SolutionDir)Hazel\vender\ImGui;$(SolutionDir)Hazel\vender\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,13 +135,15 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>HZ_PLATFORM_WINDOWS;HZ_DIST;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CRT_SECURE_NO_WARNINGS;HZ_DIST;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Hazel\src;$(SolutionDir)Hazel\vender\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Hazel\src;$(SolutionDir)Hazel\vender\spdlog\include;$(SolutionDir)Hazel\vender\glm;$(SolutionDir)Hazel\vender\ImGui;$(SolutionDir)Hazel\vender\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <OptimizeReferences>true</OptimizeReferences>

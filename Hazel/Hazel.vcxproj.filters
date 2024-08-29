@@ -15,19 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Hazel\Application.h">
+    <ClInclude Include="src\Hazel\Core\Application.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Core.h">
+    <ClInclude Include="src\Hazel\Core\Base.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\EntryPoint.h">
+    <ClInclude Include="src\Hazel\Core\EntryPoint.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Log.h">
+    <ClInclude Include="src\Hazel\Core\Log.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Events\Event.h">
@@ -45,30 +45,129 @@
     <ClInclude Include="src\hzpch.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Window.h">
+    <ClInclude Include="src\Hazel\Core\Window.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Layer.h">
+    <ClInclude Include="src\Hazel\Core\Layer.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\LayerStack.h">
+    <ClInclude Include="src\Hazel\Core\LayerStack.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\ImGui\ImGuiLayer.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h">
+    <ClInclude Include="src\Hazel\Core\Input.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Core\KeyCodes.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Core\MouseCodes.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\GraphicsContext.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Shader.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Buffer.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Renderer.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\VertexArray.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\RendererAPI.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\RenderCommand.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\OrthographicCamera.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Core\Timestep.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Texture.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="vender\stb_image\stb_image.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\OrthographicCameraController.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Renderer2D.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Debug\Instrumentor.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\SubTexture2D.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Framebuffer.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="vender\entt\entt.hpp">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Scene\Scene.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="vender\entt\include\entt.hpp">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Scene\Components.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Scene\Entity.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Camera.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\SceneCamera.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Scene\ScriptableEntity.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Hazel\Application.cpp">
+    <ClCompile Include="src\Hazel\Core\Application.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="src\Hazel\Log.cpp">
+    <ClCompile Include="src\Hazel\Core\Log.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="src\hzpch.cpp">
@@ -77,16 +176,88 @@
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="src\Hazel\Layer.cpp">
+    <ClCompile Include="src\Hazel\Core\Layer.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="src\Hazel\LayerStack.cpp">
+    <ClCompile Include="src\Hazel\Core\LayerStack.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\ImGui\ImGuiLayer.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\ImGui\ImGuiBuild.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\Shader.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\Buffer.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\Renderer.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\VertexArray.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\RenderCommand.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\RendererAPI.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\OrthographicCamera.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\Texture.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="vender\stb_image\stb_image.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\OrthographicCameraController.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\Renderer2D.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Core\Window.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\SubTexture2D.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\Framebuffer.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Scene\Scene.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\SceneCamera.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "hzpch.h"
-#include "Hazel/Core.h"
+#include "Hazel/Core/Base.h"
 
 namespace Hazel
 {
@@ -29,7 +29,7 @@ namespace Hazel
 		EventCategoryMouseButton = BIT(4)
 	};
 
-#define EVENT_CLASS_TYPE(type)	static inline EventType GetStaticType() {return EventType::##type; }\
+#define EVENT_CLASS_TYPE(type)	static EventType GetStaticType() {return EventType::type; }\
 								virtual EventType GetEventType() const override { return  GetStaticType(); }\
 								virtual const char* GetEventName() const override { return #type; }
 	
@@ -40,6 +40,8 @@ namespace Hazel
 	{
 		friend class EventDispatcher;
 	public:
+		virtual ~Event() = default;
+
 		bool Handled = false;
 
 		virtual EventType GetEventType() const = 0;
@@ -47,7 +49,7 @@ namespace Hazel
 		virtual const char* GetEventName() const = 0;
 		virtual std::string ToString() const { return GetEventName(); }
 		
-		inline bool IsInCategory(EventCategory category) const
+		bool IsInCategory(EventCategory category) const
 		{
 			return GetCategoryFlags() & category;
 		}
@@ -56,24 +58,23 @@ namespace Hazel
 
 	class HAZEL_API EventDispatcher
 	{
-		template<typename T>
-		using EventFn = std::function<bool(T&)>;
 	public:
 		EventDispatcher(Event& event)
-			:m_event(event) {}
+			:m_Event(event) {}
 
-		template<typename T>
-		bool Dispatch(EventFn<T> Func)
+		// F will be deduced by the compiler
+		template<typename T, typename F>
+		bool Dispatch(const F& func)
 		{
-			if (m_event.GetEventType() == T::GetStaticType())
+			if (m_Event.GetEventType() == T::GetStaticType())
 			{
-				m_event.Handled = Func(*(T*)& m_event);
+				m_Event.Handled = func(static_cast<T&>(m_Event));
 				return true;
 			}
 			return false;
 		}
 	private:
-		Event& m_event;
+		Event& m_Event;
 	};
 
 	inline std::ostream& operator<<(std::ostream& os, const Event& e)

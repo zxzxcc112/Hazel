@@ -15,8 +15,59 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Sandbox.cpp">
+    <ClCompile Include="src\SandboxApp.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sandbox2D.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FlappyBird\GameLayer.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FlappyBird\Level.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FlappyBird\ParticleSystem.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FlappyBird\Player.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FlappyBird\Random.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ExampleLayer.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Sandbox2D.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FlappyBird\Color.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FlappyBird\GameLayer.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FlappyBird\Level.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FlappyBird\ParticleSystem.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FlappyBird\Player.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FlappyBird\Random.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ExampleLayer.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\FlatColor.glsl" />
+    <None Include="assets\shaders\FlappyBird.glsl" />
   </ItemGroup>
 </Project>

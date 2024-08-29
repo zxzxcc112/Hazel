@@ -4,6 +4,9 @@
 [submodule "Hazel/vender/GLFW"]
 	path = Hazel/vender/GLFW
 	url = https://github.com/zxzxcc112/glfw
+[submodule "Hazel/vender/glm"]
+	path = Hazel/vender/glm
+	url = https://github.com/g-truc/glm
 [submodule "Hazel/vender/ImGui"]
 	path = Hazel/vender/ImGui
 	url = https://github.com/zxzxcc112/imgui

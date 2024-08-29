@@ -1,10 +1,6 @@
 #pragma once
-#include "Hazel/Core.h"
-#include "Hazel/Layer.h"
-
-#include "Hazel/Events/ApplicationEvent.h"
-#include "Hazel/Events/MouseEvent.h"
-#include "Hazel/Events/KeyEvent.h"
+#include "Hazel/Core/Base.h"
+#include "Hazel/Core/Layer.h"
 
 namespace Hazel
 {
@@ -12,27 +8,21 @@ namespace Hazel
 	{
 	public:
 		ImGuiLayer();
-		~ImGuiLayer();
+		virtual ~ImGuiLayer() = default;
 
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
-		virtual void OnUpdate() override;
-		virtual void OnEvent(Event& event) override;
-	private:
-		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
-		bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);
-		bool OnMouseMovedEvent(MouseMovedEvent& e);
-		bool OnMouseScrolledEvent(MouseScrolledEvent& e);
-		
-		bool OnKeyPressedEvent(KeyPressedEvent& e);
-		bool OnKeyReleasedEvent(KeyReleasedEvent& e);
-		bool OnKeyTypedEvent(KeyTypedEvent& e);
-		
-		bool OnWindowResizedEvent(WindowResizeEvent& e);
+		virtual void OnEvent(Event& e) override;
 
+		void Begin();
+		void End();
+
+		void SetBlockEvents(bool blockEvents) { m_BlockEvents = blockEvents; }
+		void SetDarkThemeColors();
+	private:
+		bool m_BlockEvents = false;
 		float m_Time = 0.0f;
 	};
-
 }
 
 

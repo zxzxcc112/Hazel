@@ -1,7 +1,12 @@
 workspace "Hazel"
 	configurations {"Debug", "Release", "Distribution"}
-	architecture "x64"
-	startproject "Sandbox"
+	architecture "x86_64"
+	startproject "Hazelnut"
+
+	flags
+	{
+		"MultiProcessorCompile"
+	}
 
 outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/"
 
@@ -10,15 +15,22 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Hazel/vender/GLFW/include"
 IncludeDir["Glad"] = "Hazel/vender/Glad/include"
 IncludeDir["ImGui"] = "Hazel/vender/ImGui"
+IncludeDir["glm"] = "Hazel/vender/glm"
+IncludeDir["stb_image"] = "Hazel/vender/stb_image"
+IncludeDir["entt"] = "Hazel/vender/entt/include"
 
-include "Hazel/vender/GLFW"
-include "Hazel/vender/Glad"
-include "Hazel/vender/ImGui"
+group "Dependencies"
+	include "Hazel/vender/GLFW"
+	include "Hazel/vender/Glad"
+	include "Hazel/vender/ImGui"
+group ""
 
 project "Hazel"
 	location "Hazel"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputDir .. "%{prj.name}")
 	objdir ("bin-int/" .. outputDir .. "%{prj.name}")
@@ -29,7 +41,10 @@ project "Hazel"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vender/stb_image/**.h",
+		"%{prj.name}/vender/stb_image/**.cpp",
+		"%{prj.name}/vender/entt/include/**.hpp"
 	}
 
 	includedirs
@@ -38,7 +53,10 @@ project "Hazel"
 		"%{prj.name}/vender/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}"
 	}
 
 	links
@@ -49,45 +67,42 @@ project "Hazel"
 		"opengl32.lib"
 	}
 
-	postbuildcommands 
+	disablewarnings
 	{
-		("{mkdir} ../bin/" .. outputDir .. "Sandbox"),
-		("{copyfile} %{cfg.buildtarget.relpath} ../bin/" .. outputDir .. "Sandbox")
+		"4819"
+	}
+
+	defines
+	{
+		"GLFW_INCLUDE_NONE",
+		"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "Off"
 		systemversion "latest"
-
-		defines
-		{
-			"HZ_PLATFORM_WINDOWS",
-			"HZ_BUILD_DLL",
-			"GLFW_INCLUDE_NONE",
-			"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
-			"_CRT_SECURE_NO_WARNINGS"
-		}
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Distribution"
 		defines "HZ_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputDir .. "%{prj.name}")
 	objdir ("bin-int/" .. outputDir .. "%{prj.name}")
@@ -101,6 +116,8 @@ project "Sandbox"
 	includedirs
 	{
 		"Hazel/vender/spdlog/include",
+		"Hazel/vender/glm",
+		"Hazel/vender/ImGui",
 		"Hazel/src"
 	}
 
@@ -109,28 +126,90 @@ project "Sandbox"
 		"Hazel"
 	}
 
-	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "Off"
-		systemversion "latest"
+	disablewarnings
+	{
+		"4819"
+	}
+	
+	defines
+	{
+		"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
+		"_CRT_SECURE_NO_WARNINGS"
+	}
 
-		defines
-		{
-			"HZ_PLATFORM_WINDOWS",
-			"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS"
-		}
+	filter "system:windows"
+		systemversion "latest"
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Distribution"
 		defines "HZ_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
+
+project "Hazelnut"
+	location "Hazelnut"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+
+	targetdir ("bin/" .. outputDir .. "%{prj.name}")
+	objdir ("bin-int/" .. outputDir .. "%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs
+	{
+		"Hazel/src",
+		"Hazel/vender/spdlog/include",
+		"Hazel/vender/glm",
+		"Hazel/vender/ImGui",
+		"Hazel/vender/entt/include"
+	}
+
+	links
+	{
+		"Hazel"
+	}
+
+	disablewarnings
+	{
+		"4819"
+	}
+	
+	defines
+	{
+		"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
+		"_CRT_SECURE_NO_WARNINGS"
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+
+	filter "configurations:Debug"
+		defines "HZ_DEBUG"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		defines "HZ_RELEASE"
+		runtime "Release"
+		optimize "on"
+
+	filter "configurations:Distribution"
+		defines "HZ_DIST"
+		runtime "Release"
+		optimize "on"
