@@ -46,7 +46,7 @@ namespace Hazel
 
 			if (removeComponent)
 			{
-				entity.RemoveComponent<SpriteRendererComponent>();
+				entity.RemoveComponent<T>();
 			}
 		}
 	}
