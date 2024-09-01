@@ -256,7 +256,7 @@ namespace Hazel
 		{
 			auto& camera = component.Camera;
 
-			const char* projectionTypeStrings[] = { "Perspective", "Orthographic", "third", "fourth", "5.", "6.", "7." };
+			const char* projectionTypeStrings[] = { "Perspective", "Orthographic" };
 			const char* currentProjectionTypeString = projectionTypeStrings[(int)camera.GetProjectionType()];
 
 			ImGui::Checkbox("Primary", &component.Primary);

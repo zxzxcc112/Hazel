@@ -10,3 +10,6 @@
 [submodule "Hazel/vender/ImGui"]
 	path = Hazel/vender/ImGui
 	url = https://github.com/zxzxcc112/imgui
+[submodule "Hazel/vender/yaml-cpp"]
+	path = Hazel/vender/yaml-cpp
+	url = https://github.com/zxzxcc112/yaml-cpp

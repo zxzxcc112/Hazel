@@ -4,6 +4,8 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Hazel/Scene/SceneSerializer.h"
+
 namespace Hazel
 {
 	EditorLayer::EditorLayer()
@@ -215,7 +217,17 @@ namespace Hazel
 				if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (dockspace_flags & ImGuiDockNodeFlags_AutoHideTabBar) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_AutoHideTabBar; }
 				if (ImGui::MenuItem("Flag: PassthruCentralNode", "", (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode) != 0, opt_fullscreen)) { dockspace_flags ^= ImGuiDockNodeFlags_PassthruCentralNode; }
 				ImGui::Separator();
-
+                if (ImGui::MenuItem("Serialize Scene"))
+                {
+                    SceneSerializer serializer(m_ActiveScene);
+                    serializer.Serialize("assets/scenes/Example.hazel");
+                }
+                if (ImGui::MenuItem("Deserialize Scene"))
+                {
+                    SceneSerializer serializer(m_ActiveScene);
+                    serializer.Deserialize("assets/scenes/Example.hazel");
+                }
+				ImGui::Separator();
 				if (ImGui::MenuItem("Close", NULL, false))
 					Application::Get().Close();
 				ImGui::EndMenu();
