@@ -156,13 +156,16 @@
     <ClInclude Include="src\Hazel\Renderer\Camera.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Renderer\SceneCamera.h">
+    <ClInclude Include="src\Hazel\Scene\SceneCamera.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Scene\ScriptableEntity.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Scene\SceneSerializer.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Utils\PlatformUtils.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
@@ -260,10 +263,13 @@
     <ClCompile Include="src\Hazel\Scene\Scene.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="src\Hazel\Renderer\SceneCamera.cpp">
+    <ClCompile Include="src\Hazel\Scene\SceneCamera.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Scene\SceneSerializer.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

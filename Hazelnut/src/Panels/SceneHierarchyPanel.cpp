@@ -124,6 +124,7 @@ namespace Hazel
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
 	{
 		m_Context = context;
+        m_SelectionContext = {};
 	}
 
 	void SceneHierarchyPanel::OnImGuiRender()
@@ -157,8 +158,6 @@ namespace Hazel
 		if (m_SelectionContext)
 		{
 			DrawComponents(m_SelectionContext);
-
-			
 		}
 
 		ImGui::End();

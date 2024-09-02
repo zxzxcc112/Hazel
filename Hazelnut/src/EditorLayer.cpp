@@ -5,6 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Hazel/Scene/SceneSerializer.h"
+#include "Hazel/Utils/PlatformUtils.h"
 
 namespace Hazel
 {
@@ -217,15 +218,19 @@ namespace Hazel
 				if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (dockspace_flags & ImGuiDockNodeFlags_AutoHideTabBar) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_AutoHideTabBar; }
 				if (ImGui::MenuItem("Flag: PassthruCentralNode", "", (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode) != 0, opt_fullscreen)) { dockspace_flags ^= ImGuiDockNodeFlags_PassthruCentralNode; }
 				ImGui::Separator();
-                if (ImGui::MenuItem("Serialize Scene"))
+                if (ImGui::MenuItem("New", "Ctrl+N"))
                 {
-                    SceneSerializer serializer(m_ActiveScene);
-                    serializer.Serialize("assets/scenes/Example.hazel");
+                    NewScene();
                 }
-                if (ImGui::MenuItem("Deserialize Scene"))
+
+                if (ImGui::MenuItem("Open...", "Ctrl+O"))
                 {
-                    SceneSerializer serializer(m_ActiveScene);
-                    serializer.Deserialize("assets/scenes/Example.hazel");
+                    OpenScene();
+                }
+                
+                if (ImGui::MenuItem("Save as...", "Ctrl+Shift+S"))
+                {
+                    SaveSceneAs();
                 }
 				ImGui::Separator();
 				if (ImGui::MenuItem("Close", NULL, false))
@@ -266,5 +271,71 @@ namespace Hazel
 	void EditorLayer::OnEvent(Event& e)
 	{
 		m_OrthographicCameraController.OnEvent(e);
+
+        EventDispatcher dispatcher(e);
+        dispatcher.Dispatch<KeyPressedEvent>(HZ_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
 	}
+
+    bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+    {
+        // Shortcuts
+        if (e.GeteRepeatCount() > 0)
+            return false;
+        
+        bool ctrlPressed = Input::IsKeyPressed(KeyCode::LeftControl) || Input::IsKeyPressed(KeyCode::RightControl);
+        bool shiftPressed = Input::IsKeyPressed(KeyCode::LeftShift) || Input::IsKeyPressed(KeyCode::RightShift);
+
+        switch (e.GetKeyCode())
+        {
+            case KeyCode::N:
+            {
+                if (ctrlPressed)
+                    NewScene();
+                break;
+            }
+            case KeyCode::O:
+            {
+                if(ctrlPressed)
+                    OpenScene();
+                break;
+            }
+            
+            case KeyCode::S:
+            {
+                if (ctrlPressed && shiftPressed)
+                    SaveSceneAs();
+                break;
+            }
+        }
+        return false;
+    }
+
+    void EditorLayer::OpenScene()
+    {
+        std::string filepath = FileDialogs::OpenFile("Hazel File(.hazel)\0*.hazel\0All File\0*.*\0");
+        if (!filepath.empty())
+        {
+            NewScene();
+
+            SceneSerializer serializer(m_ActiveScene);
+            serializer.Deserialize(filepath);
+        }
+    }
+
+    void EditorLayer::SaveSceneAs()
+    {
+        std::string filepath = FileDialogs::SaveFile("Hazel File(.hazel)\0*.hazel\0All File\0*.*\0");
+        if (!filepath.empty())
+        {
+            SceneSerializer serializer(m_ActiveScene);
+            serializer.Serialize(filepath);
+        }
+    }
+
+    void EditorLayer::NewScene()
+    {
+        m_ActiveScene = CreateRef<Scene>();
+        m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+    }
 }
