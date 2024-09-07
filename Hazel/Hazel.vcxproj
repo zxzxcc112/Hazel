@@ -32,6 +32,7 @@
     <ClInclude Include="src\Hazel\Core\Base.h" />
     <ClInclude Include="src\Hazel\Core\EntryPoint.h" />
     <ClInclude Include="src\Hazel\Core\MouseCodes.h" />
+    <ClInclude Include="src\Hazel\Math\Math.h" />
     <ClInclude Include="src\Hazel\Renderer\Camera.h" />
     <ClInclude Include="src\Hazel\Renderer\Framebuffer.h" />
     <ClInclude Include="src\Hazel\Renderer\OrthographicCameraController.h" />
@@ -65,6 +66,7 @@
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="vender\entt\entt.hpp" />
     <ClInclude Include="vender\entt\include\entt.hpp" />
+    <ClInclude Include="vender\ImGuizmo\ImGuizmo.h" />
     <ClInclude Include="vender\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +77,7 @@
     <ClCompile Include="src\Hazel\Core\LayerStack.cpp" />
     <ClCompile Include="src\Hazel\Core\Log.cpp" />
     <ClCompile Include="src\Hazel\Core\Application.cpp" />
+    <ClCompile Include="src\Hazel\Math\Math.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\Hazel\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Buffer.cpp" />
@@ -108,6 +111,11 @@
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="vender\ImGuizmo\ImGuizmo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="vender\stb_image\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -182,7 +190,7 @@
       <PreprocessorDefinitions>GLFW_INCLUDE_NONE;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CRT_SECURE_NO_WARNINGS;YAML_CPP_STATIC_DEFINE;HZ_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Hazel\src\;$(SolutionDir)Hazel\vender\spdlog\include;$(ProjectDir)vender\GLFW\include;$(ProjectDir)vender\Glad\include;$(ProjectDir)vender\ImGui;$(ProjectDir)vender\glm;$(ProjectDir)vender\stb_image;$(ProjectDir)vender\entt\include;$(ProjectDir)vender\yaml-cpp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Hazel\src\;$(SolutionDir)Hazel\vender\spdlog\include;$(ProjectDir)vender\GLFW\include;$(ProjectDir)vender\Glad\include;$(ProjectDir)vender\ImGui;$(ProjectDir)vender\glm;$(ProjectDir)vender\stb_image;$(ProjectDir)vender\entt\include;$(ProjectDir)vender\yaml-cpp\include;$(ProjectDir)vender\ImGuizmo</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>hzpch.h</PrecompiledHeaderFile>
@@ -204,7 +212,7 @@
       <PreprocessorDefinitions>GLFW_INCLUDE_NONE;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;_CRT_SECURE_NO_WARNINGS;YAML_CPP_STATIC_DEFINE;HZ_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Hazel\src\;$(SolutionDir)Hazel\vender\spdlog\include;$(ProjectDir)vender\GLFW\include;$(ProjectDir)vender\Glad\include;$(ProjectDir)vender\ImGui;$(ProjectDir)vender\glm;$(ProjectDir)vender\stb_image;$(ProjectDir)vender\entt\include;$(ProjectDir)vender\yaml-cpp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Hazel\src\;$(SolutionDir)Hazel\vender\spdlog\include;$(ProjectDir)vender\GLFW\include;$(ProjectDir)vender\Glad\include;$(ProjectDir)vender\ImGui;$(ProjectDir)vender\glm;$(ProjectDir)vender\stb_image;$(ProjectDir)vender\entt\include;$(ProjectDir)vender\yaml-cpp\include;$(ProjectDir)vender\ImGuizmo</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>hzpch.h</PrecompiledHeaderFile>
@@ -226,7 +234,7 @@
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Hazel\src\;$(SolutionDir)Hazel\vender\spdlog\include;$(ProjectDir)vender\GLFW\include;$(ProjectDir)vender\Glad\include;$(ProjectDir)vender\ImGui;$(ProjectDir)vender\glm;$(ProjectDir)vender\stb_image;$(ProjectDir)vender\entt\include;$(ProjectDir)vender\yaml-cpp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Hazel\src\;$(SolutionDir)Hazel\vender\spdlog\include;$(ProjectDir)vender\GLFW\include;$(ProjectDir)vender\Glad\include;$(ProjectDir)vender\ImGui;$(ProjectDir)vender\glm;$(ProjectDir)vender\stb_image;$(ProjectDir)vender\entt\include;$(ProjectDir)vender\yaml-cpp\include;$(ProjectDir)vender\ImGuizmo</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>hzpch.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>

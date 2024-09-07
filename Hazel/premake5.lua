@@ -16,7 +16,9 @@ project "Hazel"
 		"src/**.cpp",
 		"vender/stb_image/**.h",
 		"vender/stb_image/**.cpp",
-		"vender/entt/include/**.hpp"
+		"vender/entt/include/**.hpp",
+		"vender/ImGuizmo/ImGuizmo.h",
+		"vender/ImGuizmo/ImGuizmo.cpp"
 	}
 
 	includedirs
@@ -29,7 +31,8 @@ project "Hazel"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.entt}",
-		"%{IncludeDir.yamp_cpp}"
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}"
 	}
 
 	links
@@ -53,6 +56,9 @@ project "Hazel"
 		"_CRT_SECURE_NO_WARNINGS",
         "YAML_CPP_STATIC_DEFINE"
 	}
+
+    filter "files:vender/ImGuizmo/**.cpp"
+        flags "NoPCH"
 
 	filter "system:windows"
 		systemversion "latest"

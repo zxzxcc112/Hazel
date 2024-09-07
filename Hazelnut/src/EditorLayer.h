@@ -34,6 +34,8 @@ namespace Hazel
 
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 
+        int m_GizmoOperation = -1;
+
 		//Temp
 		Ref<VertexArray> m_SquareVertexArray;
 		Ref<Shader> m_FlatColorShader;

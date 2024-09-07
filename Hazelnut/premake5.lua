@@ -19,7 +19,8 @@ project "Hazelnut"
 		"%{wks.location}/Hazel/vender/spdlog/include",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.ImGuizmo}"
 	}
 
 	links

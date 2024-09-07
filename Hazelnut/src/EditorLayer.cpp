@@ -1,11 +1,15 @@
 #include "EditorLayer.h"
 
-#include "imgui.h"
+#include <imgui.h>
 
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Hazel/Scene/SceneSerializer.h"
 #include "Hazel/Utils/PlatformUtils.h"
+
+#include <ImGuizmo.h>
+
+#include "Hazel/Math/Math.h"
 
 namespace Hazel
 {
@@ -264,6 +268,55 @@ namespace Hazel
 		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
 		ImGui::Image((void*)(size_t)m_Framebuffer->GetColorAttachmentID(), viewportPanelSize, { 0, 1 }, { 1, 0 });
+
+        // Gizmos
+        Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+        Entity primaryCamera = m_ActiveScene->GetPrimaryCameraEntity();
+
+        if (selectedEntity && primaryCamera && m_GizmoOperation != -1)
+        {
+            ImGuizmo::SetDrawlist();
+            float windowWidth = (float)ImGui::GetWindowWidth();
+            float windowHeight = (float)ImGui::GetWindowHeight();
+            ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+            // Camera
+            const auto& cameraTransformComponent = primaryCamera.GetComponent<TransformComponent>();
+            const auto cameraView = glm::inverse(cameraTransformComponent.GetTransform());
+
+            const auto& cameraComponent = primaryCamera.GetComponent<CameraComponent>();
+            const auto& camera = cameraComponent.Camera;
+            const auto& cameraProjection = camera.GetProjection();
+            
+            ImGuizmo::SetOrthographic(camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic ? true : false);
+
+            // Selected Entity
+            auto& transformComponent = selectedEntity.GetComponent<TransformComponent>();
+            auto matrix = transformComponent.GetTransform();
+
+            bool snap = Input::IsKeyPressed(KeyCode::LeftControl);
+            float snapValue = 0.5f; // Snap to 0.5m for translation/scale
+            // Snap to 45 degrees for rotation;
+            if (m_GizmoOperation == ImGuizmo::OPERATION::ROTATE)
+                snapValue = 45.0f;
+
+            float snapValues[3] = { snapValue, snapValue, snapValue };
+
+            ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), (ImGuizmo::OPERATION)m_GizmoOperation,
+                ImGuizmo::MODE::LOCAL, glm::value_ptr(matrix), nullptr, snap ? snapValues : nullptr);
+
+            if (ImGuizmo::IsUsing())
+            {
+                glm::vec3 translation, rotation, scale;
+                Math::DecomposeTransform(matrix, translation, rotation, scale);
+
+                auto deltaRotation = rotation - transformComponent.Rotation;
+                transformComponent.Translation = translation;
+                transformComponent.Rotation += deltaRotation;
+                transformComponent.Scale = scale;
+            }
+        }
+
 		ImGui::End();
 		ImGui::PopStyleVar();
 	}
@@ -299,11 +352,31 @@ namespace Hazel
                     OpenScene();
                 break;
             }
-            
             case KeyCode::S:
             {
                 if (ctrlPressed && shiftPressed)
                     SaveSceneAs();
+                break;
+            }
+            // Gizmo
+            case KeyCode::Q:
+            {
+                m_GizmoOperation = -1;
+                break;
+            }
+            case KeyCode::W:
+            {
+                m_GizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
+                break;
+            }
+            case KeyCode::E:
+            {
+                m_GizmoOperation = ImGuizmo::OPERATION::ROTATE;
+                break;
+            }
+            case KeyCode::R:
+            {
+                m_GizmoOperation = ImGuizmo::OPERATION::SCALE;
                 break;
             }
         }

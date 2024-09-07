@@ -168,6 +168,12 @@
     <ClInclude Include="src\Hazel\Utils\PlatformUtils.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="vender\ImGuizmo\ImGuizmo.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Math\Math.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
@@ -270,6 +276,12 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="vender\ImGuizmo\ImGuizmo.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Math\Math.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>
