@@ -92,18 +92,21 @@ namespace Hazel
 
 		//resize frame buffer
 		const FramebufferSpecification& spec = m_Framebuffer->GetSpecification();
-		if (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y)
+        if (m_ViewportSize.x != 0 && m_ViewportSize.y != 0 && (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_OrthographicCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 		}
 
 		//update
 		{
 			HZ_PROFILE_SCOPE("m_OrthographicCameraController.OnUpdate");
-			if (m_ViewportFocused)
-				m_OrthographicCameraController.OnUpdate(ts);
+            if (m_ViewportFocused)
+                m_OrthographicCameraController.OnUpdate(ts);
+
+            m_EditorCamera.OnUpdate(ts);
 		}
 
 		//render
@@ -121,7 +124,7 @@ namespace Hazel
 			rotation += 90.0f * ts;
 
 			HZ_PROFILE_SCOPE("Rendering Scene");
-			m_ActiveScene->OnUpdate(ts);
+			m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 
 			Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
 			//Renderer2D::DrawRotatedQuad({ -1.0f, -0.5f }, { 0.5f, 0.5f }, glm::radians(45.0f), m_SquareColor);
@@ -262,7 +265,7 @@ namespace Hazel
 
 		m_ViewportFocused = ImGui::IsWindowFocused();
 		m_ViewportHovered = ImGui::IsWindowHovered();
-		Application::Get().GetImGuiLayer()->SetBlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+		Application::Get().GetImGuiLayer()->SetBlockEvents(!m_ViewportFocused && !m_ViewportHovered);
 
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
@@ -271,24 +274,31 @@ namespace Hazel
 
         // Gizmos
         Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
-        Entity primaryCamera = m_ActiveScene->GetPrimaryCameraEntity();
 
-        if (selectedEntity && primaryCamera && m_GizmoOperation != -1)
+        if (selectedEntity && m_GizmoOperation != -1)
         {
+            ImGuizmo::SetOrthographic(false);
             ImGuizmo::SetDrawlist();
             float windowWidth = (float)ImGui::GetWindowWidth();
             float windowHeight = (float)ImGui::GetWindowHeight();
             ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
             // Camera
-            const auto& cameraTransformComponent = primaryCamera.GetComponent<TransformComponent>();
-            const auto cameraView = glm::inverse(cameraTransformComponent.GetTransform());
-
-            const auto& cameraComponent = primaryCamera.GetComponent<CameraComponent>();
-            const auto& camera = cameraComponent.Camera;
-            const auto& cameraProjection = camera.GetProjection();
             
-            ImGuizmo::SetOrthographic(camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic ? true : false);
+            // Runtime camera from entity
+            // Entity primaryCamera = m_ActiveScene->GetPrimaryCameraEntity();
+            // const auto& cameraTransformComponent = primaryCamera.GetComponent<TransformComponent>();
+            // const auto cameraView = glm::inverse(cameraTransformComponent.GetTransform());
+            // 
+            // const auto& cameraComponent = primaryCamera.GetComponent<CameraComponent>();
+            // const auto& camera = cameraComponent.Camera;
+            // const auto& cameraProjection = camera.GetProjection();
+            // 
+            // ImGuizmo::SetOrthographic(camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic ? true : false);
+
+            // Editor Camera
+            const auto& cameraView = m_EditorCamera.GetViewMatrix();
+            const auto& cameraProjection = m_EditorCamera.GetProjection();
 
             // Selected Entity
             auto& transformComponent = selectedEntity.GetComponent<TransformComponent>();
@@ -324,6 +334,7 @@ namespace Hazel
 	void EditorLayer::OnEvent(Event& e)
 	{
 		m_OrthographicCameraController.OnEvent(e);
+        m_EditorCamera.OnEvent(e);
 
         EventDispatcher dispatcher(e);
         dispatcher.Dispatch<KeyPressedEvent>(HZ_BIND_EVENT_FN(EditorLayer::OnKeyPressed));

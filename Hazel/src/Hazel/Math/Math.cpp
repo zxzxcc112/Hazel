@@ -81,11 +81,11 @@ namespace Hazel::Math
         // will leave the Euler angle code here for now.
 
         outRotation.y = asin(-Row[0][2]);
-        if (cos(outRotation.y) != 0) {
+        if (cos(outRotation.y) > 0.0001f) {
             outRotation.x = atan2(Row[1][2], Row[2][2]);
             outRotation.z = atan2(Row[0][1], Row[0][0]);
         } else {
-            outRotation.x = atan2(-Row[2][0], Row[1][1]);
+            outRotation.x = atan2(-Row[2][1], Row[1][1]);
             outRotation.z = 0;
         }
 

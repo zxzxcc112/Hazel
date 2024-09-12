@@ -174,6 +174,9 @@
     <ClInclude Include="src\Hazel\Math\Math.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\EditorCamera.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
@@ -282,6 +285,9 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Math\Math.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\EditorCamera.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>

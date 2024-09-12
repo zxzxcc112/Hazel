@@ -2,6 +2,7 @@
 #include <Hazel.h>
 
 #include "Panels/SceneHierarchyPanel.h"
+#include "Hazel/Renderer/EditorCamera.h"
 
 namespace Hazel
 {
@@ -33,7 +34,7 @@ namespace Hazel
 		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 
 		SceneHierarchyPanel m_SceneHierarchyPanel;
-
+        EditorCamera m_EditorCamera;
         int m_GizmoOperation = -1;
 
 		//Temp

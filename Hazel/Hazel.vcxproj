@@ -34,6 +34,7 @@
     <ClInclude Include="src\Hazel\Core\MouseCodes.h" />
     <ClInclude Include="src\Hazel\Math\Math.h" />
     <ClInclude Include="src\Hazel\Renderer\Camera.h" />
+    <ClInclude Include="src\Hazel\Renderer\EditorCamera.h" />
     <ClInclude Include="src\Hazel\Renderer\Framebuffer.h" />
     <ClInclude Include="src\Hazel\Renderer\OrthographicCameraController.h" />
     <ClInclude Include="src\Hazel\Renderer\Buffer.h" />
@@ -78,6 +79,7 @@
     <ClCompile Include="src\Hazel\Core\Log.cpp" />
     <ClCompile Include="src\Hazel\Core\Application.cpp" />
     <ClCompile Include="src\Hazel\Math\Math.cpp" />
+    <ClCompile Include="src\Hazel\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\Hazel\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Buffer.cpp" />
