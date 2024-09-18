@@ -28,7 +28,11 @@ namespace Hazel
 
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 
-		m_Framebuffer = Framebuffer::Create({ 1280, 720 });
+        FramebufferSpecification spec;
+        spec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::DEPTH };
+        spec.Width = 1280;
+        spec.Height = 720;
+		m_Framebuffer = Framebuffer::Create(spec);
 
 		m_ActiveScene = CreateRef<Scene>();
 
