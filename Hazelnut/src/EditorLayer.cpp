@@ -29,7 +29,7 @@ namespace Hazel
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 
         FramebufferSpecification spec;
-        spec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::DEPTH };
+        spec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::DEPTH };
         spec.Width = 1280;
         spec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(spec);
@@ -129,6 +129,20 @@ namespace Hazel
 
 			HZ_PROFILE_SCOPE("Rendering Scene");
 			m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+
+            auto [mx, my] = ImGui::GetMousePos();
+            mx -= m_ViewportBounds[0].x;
+            my -= m_ViewportBounds[0].y;
+
+            glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+            my = viewportSize.y - my;
+
+            int mouseX = (int)mx, mouseY = (int)my;
+
+            if (mouseX >= 0 && mouseY >= 0 && mouseX <= viewportSize.x && mouseY <= viewportSize.y)
+            {
+                HZ_CORE_TRACE("pixel data: {0}", m_Framebuffer->ReadPixel(1, mouseX, mouseY));
+            }
 
 			Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
 			//Renderer2D::DrawRotatedQuad({ -1.0f, -0.5f }, { 0.5f, 0.5f }, glm::radians(45.0f), m_SquareColor);
@@ -276,6 +290,14 @@ namespace Hazel
 
 		ImGui::Image((void*)(size_t)m_Framebuffer->GetColorAttachmentID(), viewportPanelSize, { 0, 1 }, { 1, 0 });
 
+        // Calculate viewport bounds (left top, right bottom)
+        ImVec2 contentRegionMin = ImGui::GetWindowContentRegionMin();
+        ImVec2 contentRegionMax = ImGui::GetWindowContentRegionMax();
+        ImVec2 windowPos = ImGui::GetWindowPos();
+
+        m_ViewportBounds[0] = { windowPos.x + contentRegionMin.x, windowPos.y + contentRegionMin.y };
+        m_ViewportBounds[1] = { windowPos.x + contentRegionMax.x, windowPos.y + contentRegionMax.y };
+
         // Gizmos
         Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
 
@@ -285,7 +307,7 @@ namespace Hazel
             ImGuizmo::SetDrawlist();
             float windowWidth = (float)ImGui::GetWindowWidth();
             float windowHeight = (float)ImGui::GetWindowHeight();
-            ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+            ImGuizmo::SetRect(m_ViewportBounds[0].x, m_ViewportBounds[0].y, m_ViewportSize.x, m_ViewportSize.y);
 
             // Camera
             
