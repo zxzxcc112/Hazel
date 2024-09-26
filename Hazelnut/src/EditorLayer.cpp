@@ -121,6 +121,9 @@ namespace Hazel
 
 			RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
 			RenderCommand::Clear();
+
+            // Clear our entity ID attachment to -1
+            m_Framebuffer->ClearColorAttachment(1, -1);
 		}
 
 		{
