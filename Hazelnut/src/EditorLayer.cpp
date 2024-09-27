@@ -145,7 +145,7 @@ namespace Hazel
             if (mouseX >= 0 && mouseY >= 0 && mouseX < viewportSize.x && mouseY < viewportSize.y)
             {
                 int entityID = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
-                HZ_CORE_TRACE("pixel data: {0}", entityID);
+                // HZ_CORE_TRACE("pixel data: {0}", entityID);
                 m_HoveredEntity = entityID == -1 ? Entity() : Entity((entt::entity)entityID, m_ActiveScene.get());
             }
 
@@ -375,6 +375,7 @@ namespace Hazel
 
         EventDispatcher dispatcher(e);
         dispatcher.Dispatch<KeyPressedEvent>(HZ_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+        dispatcher.Dispatch<MouseButtonPressedEvent>(HZ_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
 	}
 
     bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
@@ -427,6 +428,16 @@ namespace Hazel
                 m_GizmoOperation = ImGuizmo::OPERATION::SCALE;
                 break;
             }
+        }
+        return false;
+    }
+
+    bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
+    {
+        if (e.GetButton() == MouseCode::ButtonLeft)
+        {
+            if(m_ViewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(KeyCode::LeftAlt))
+                m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
         }
         return false;
     }
