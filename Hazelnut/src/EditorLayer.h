@@ -38,6 +38,8 @@ namespace Hazel
         EditorCamera m_EditorCamera;
         int m_GizmoOperation = -1;
 
+        Entity m_HoveredEntity = {};
+
 		//Temp
 		Ref<VertexArray> m_SquareVertexArray;
 		Ref<Shader> m_FlatColorShader;

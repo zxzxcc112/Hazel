@@ -142,9 +142,11 @@ namespace Hazel
 
             int mouseX = (int)mx, mouseY = (int)my;
 
-            if (mouseX >= 0 && mouseY >= 0 && mouseX <= viewportSize.x && mouseY <= viewportSize.y)
+            if (mouseX >= 0 && mouseY >= 0 && mouseX < viewportSize.x && mouseY < viewportSize.y)
             {
-                HZ_CORE_TRACE("pixel data: {0}", m_Framebuffer->ReadPixel(1, mouseX, mouseY));
+                int entityID = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+                HZ_CORE_TRACE("pixel data: {0}", entityID);
+                m_HoveredEntity = entityID == -1 ? Entity() : Entity((entt::entity)entityID, m_ActiveScene.get());
             }
 
 			Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
@@ -272,6 +274,12 @@ namespace Hazel
 		m_SceneHierarchyPanel.OnImGuiRender();
 
 		ImGui::Begin("Stats");
+
+        std::string entityName = "None";
+        if (m_HoveredEntity)
+            entityName = m_HoveredEntity.GetComponent<TagComponent>().Tag;
+
+        ImGui::Text("Hovered Entity: %s", entityName.c_str());
 
 		ImGui::Text("Render 2D stats:");
 		ImGui::Text("Draw Call: %d", Renderer2D::GetStatistics().DrawCalls);
